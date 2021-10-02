@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  url: 'https://api.diagnojur.com.br/',
-  urlApi: 'https://api.diagnojur.com.br/api/',
-  urlAuth: 'https://api.diagnojur.com.br/api/auth/',
+  url: 'http://159.203.99.219/',
+  urlApi: 'http://159.203.99.219/api/',
+  urlAuth: 'http://159.203.99.219/api/auth/',
 };

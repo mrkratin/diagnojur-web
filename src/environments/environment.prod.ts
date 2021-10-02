@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  url: 'https://apis-bruce.online/',
-  urlApi: 'https://apis-bruce.online/api/',
-  urlAuth: 'https://apis-bruce.online/api/auth/',
+  url: 'https://probusca.store/',
+  urlApi: 'https://probusca.store/api/',
+  urlAuth: 'https://probusca.store/api/auth/',
 };

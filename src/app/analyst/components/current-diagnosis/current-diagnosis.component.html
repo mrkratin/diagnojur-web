@@ -1,0 +1,24 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>Novo Diagnóstico</nz-page-header-title>
+  <nz-page-header-content *ngIf="replies && replies.length > 0">
+    <nz-alert [nzDescription]="alertDescription" [nzMessage]="alertMessage" class="mb-3" nzShowIcon nzType="warning">
+      <ng-template #alertMessage>
+        Atenção Analista
+      </ng-template>
+      <ng-template #alertDescription>
+        Enquanto houver solicitações de réplicas você não poderá responder novos diagnósticos
+      </ng-template>
+    </nz-alert>
+  </nz-page-header-content>
+</nz-page-header>
+
+<div class="mx-5">
+  <dj-diagnostic-next *ngIf="!diagnosticPending" [replyPending]="replies && replies.length > 0"
+    (emitterDiagnostic)="nextDiagnostic($event)"></dj-diagnostic-next>
+  <dj-diagnosis-pending *ngIf="diagnosticPending" [diagnostic]="diagnosticPending"></dj-diagnosis-pending>
+</div>
+
+<div class="mx-5" *ngIf="replies && replies.length > 0">
+  <dj-solicitation-replies-pending *ngIf="replies && replies.length > 0" [replies]="replies">
+  </dj-solicitation-replies-pending>
+</div>

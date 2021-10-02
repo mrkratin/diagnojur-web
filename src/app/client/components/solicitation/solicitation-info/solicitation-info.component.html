@@ -1,0 +1,63 @@
+<div>
+  <nz-card [nzBordered]="false" [nzExtra]="extra" [nzLoading]="!solicitation" nzTitle="Informações sobre a solicitação">
+    <nz-alert *ngIf="solicitation.payment" [nzDescription]="alertPaymentDescription" class="mb-3"
+      nzMessage="Desculpe, ainda não conseguimos identificar o seu pagamento =(" nzType="warning"></nz-alert>
+
+    <ng-template #alertPaymentDescription>
+      <span>Caso ainda não tenha realizado,
+        <a [href]="solicitation.payment.paymentLink" rel="noopener" target="_blank">clique aqui</a> para Realizar seu
+        Pagamento =)</span>
+    </ng-template>
+
+    <ng-template #extra>
+      <button (click)="showInfo = !showInfo" nz-button nzShape="circle" nzType="default">
+        <i [nzType]="showInfo ? 'up' : 'down'" nz-icon nzTheme="outline"></i>
+      </button>
+    </ng-template>
+
+    <dl *ngIf="showInfo" nz-row>
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Tipo de Diagnóstico</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ solicitation.type | solicitationType }}</dd>
+
+      <div *ngIf="solicitation.specificType">
+        <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Tipo especificado</dt>
+        <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ solicitation.specificType | solicitationSpecificType }}</dd>
+      </div>
+
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Tipo do processo</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ solicitation.process.type | processType }}</dd>
+
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Tipo de Justiça</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ solicitation.process.justiceType | justiceType }}</dd>
+
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Comarca</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">
+        {{ solicitation.process.county.name }} - {{ solicitation.process.county.uf }}
+      </dd>
+
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Processo com advogado?</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ solicitation.process.withLawyer | yesNo }}</dd>
+
+      <div *ngIf="solicitation.process.withLawyer">
+        <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">OAB do advogado</dt>
+        <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ solicitation.process.oab | oab }}</dd>
+      </div>
+
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Processo sigiloso?</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ solicitation.process.confidentialProcess | yesNo }}</dd>
+
+      <div *ngIf="solicitation.process.confidentialProcess">
+        <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Senha de justiça</dt>
+        <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ solicitation.process.justiceSecret }}</dd>
+      </div>
+
+      <div *ngIf="solicitation.diagnosis && solicitation.diagnosis.evaluation">
+        <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Diagnóstico avaliado</dt>
+        <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">
+          {{ solicitation.diagnosis.evaluation.rate }}
+          <i nz-icon nzTheme="fill" nzType="star"></i>
+        </dd>
+      </div>
+    </dl>
+  </nz-card>
+</div>

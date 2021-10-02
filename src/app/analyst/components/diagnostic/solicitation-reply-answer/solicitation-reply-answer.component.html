@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup">
+  <dl nz-row>
+    <dt nz-col nzMm="8" nzXs="24">Motivo</dt>
+    <dd nz-col nzMm="8" nzXs="24">{{ solicitationReply.reason | solicitationReplyReason }}</dd>
+    <dt nz-col nzMm="8" nzXs="24">Data da solicitação</dt>
+    <dd nz-col nzMm="8" nzXs="24">{{ solicitationReply.creationDate | dateMoment }}</dd>
+  </dl>
+
+  <nz-form-item>
+    <nz-form-label>Resposta</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <textarea formControlName="description" nz-input nzAutosize></textarea>
+      <nz-form-explain *ngIf="formGroup.controls.description.invalid && formGroup.controls.description.touched">
+        Resposta da réplica deve conter de 10 a 1024 caracteres
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+</form>

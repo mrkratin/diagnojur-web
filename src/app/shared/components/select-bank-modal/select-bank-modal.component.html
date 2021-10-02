@@ -1,0 +1,27 @@
+<form [formGroup]="fg" novalidate>
+  <nz-input-group [nzSuffix]="suffixIconSearch">
+    <input type="text" formControlName="bank" nz-input placeholder="Pesquise seu banco" />
+  </nz-input-group>
+  <ng-template #suffixIconSearch>
+    <i nz-icon nzType="search"></i>
+  </ng-template>
+</form>
+
+<nz-table #banksTable [nzData]="banks">
+  <thead>
+    <tr>
+      <th>Banco</th>
+      <th>Ação</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of banksTable.data">
+      <td>{{data.description}}</td>
+      <td><a (click)="destroyModal(data)">Selecionar</a></td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="destroyModal()">Fechar</button>
+</div>

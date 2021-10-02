@@ -1,0 +1,165 @@
+<nz-card [nzExtra]="cardOptions" [nzTitle]="pageHeader">
+  <ng-template #pageHeader>
+    <nz-page-header nzTitle="Solicitações de Diagnóstico"></nz-page-header>
+  </ng-template>
+
+  <form *ngIf="!isCollapsed" [formGroup]="formGroup" novalidate nz-form>
+    <div *ngIf="solicitations && solicitations.content.length > 0" nz-row>
+      <div nz-col nzLg="6" nzMd="8" nzSm="12" nzXXl="6" nzXl="6" nzXs="12">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-form-label nzFor="size">Itens por página</nz-form-label>
+            <nz-select formControlName="size" id="size" nzMode="default" nzPlaceHolder="Itens por página">
+              <nz-option [nzValue]="5" nzLabel="5"></nz-option>
+              <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+              <nz-option [nzValue]="15" nzLabel="15"></nz-option>
+              <nz-option [nzValue]="20" nzLabel="20"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzLg="6" nzMd="8" nzSm="12" nzXXl="6" nzXl="6" nzXs="12">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-form-label nzFor="direction">Ordenação</nz-form-label>
+            <nz-select formControlName="direction" id="direction" nzMode="default" nzPlaceHolder="Ordenação">
+              <nz-option [nzValue]="directions[0]" nzLabel="Decrescente"></nz-option>
+              <nz-option [nzValue]="directions[1]" nzLabel="Crescente"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzLg="6" nzMd="8" nzSm="24" nzXXl="6" nzXl="6" nzXs="24">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-form-label nzFor="status">Status</nz-form-label>
+            <nz-select formControlName="status" id="status" nzMode="default" nzPlaceHolder="Ordenação">
+              <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+              <nz-option *ngFor="let s of status" [nzLabel]="s | solicitationStatus" [nzValue]="s"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzLg="6" nzMd="24" nzSm="24" nzXXl="6" nzXl="6" nzXs="24">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-form-label nzFor="process-number">Número do Processo</nz-form-label>
+            <input
+              [validation]="false"
+              formControlName="processNumber"
+              id="process-number"
+              mask="0000000-00.0000.0.00.0000"
+              nz-input
+              placeholder="NNNNNNN-DD.AAAA.J.TR.OOOO"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+
+  <nz-divider *ngIf="!isCollapsed"></nz-divider>
+
+  <nz-skeleton *ngIf="!solicitations"></nz-skeleton>
+
+  <nz-list
+    *ngIf="solicitations"
+    [nzDataSource]="solicitations.content"
+    [nzNoResult]="djEmpty"
+    [nzPagination]="pagination"
+    [nzRenderItem]="solicitation"
+    nzItemLayout="vertical"
+  >
+    <ng-template #pagination>
+      <nz-pagination
+        (nzPageIndexChange)="pageChange($event)"
+        [nzPageIndex]="formGroup.controls['page'].value + 1"
+        [nzPageSize]="formGroup.controls['size'].value"
+        [nzTotal]="solicitations.totalElements"
+      ></nz-pagination>
+    </ng-template>
+    <ng-template #solicitation let-solicitation>
+      <nz-list-item
+        [nzActions]="
+          solicitation.status === finalized || solicitation.status === dProvided || solicitation.status === rProvided
+            ? [statusAction, eyeAction, timelineAction, downloadAction]
+            : [statusAction, eyeAction, timelineAction]
+        "
+      >
+        <nz-list-item-meta [nzDescription]="nzDescription" [nzTitle]="nzTitle"></nz-list-item-meta>
+
+        <ng-template #statusAction>
+          <!--<nz-tag (click)="showInfo(solicitation)" class="b-bg-primary text-white">-->
+          <!--{{solicitation.status|solicitationStatus}}-->
+          <!--</nz-tag>-->
+          <dj-tag-solicitation-status [solicitation]="solicitation"></dj-tag-solicitation-status>
+        </ng-template>
+
+        <ng-template #eyeAction>
+          <i
+            [routerLink]="['/client/solicitation', solicitation.id]"
+            nz-icon
+            nz-tooltip
+            nzTitle="Visualizar"
+            type="eye"
+          ></i>
+        </ng-template>
+
+        <ng-template #downloadAction>
+          <i (click)="download(solicitation)" nz-icon type="download"></i>
+        </ng-template>
+
+        <ng-template #timelineAction>
+          <i
+            (click)="showTimeline(solicitation)"
+            nz-icon
+            nz-tooltip
+            nzTheme="outline"
+            nzTitle="Timeline"
+            nzType="stock"
+          ></i>
+        </ng-template>
+
+        <ng-template #nzTitle>
+          <a [routerLink]="['/client/solicitation', solicitation.id]" href="#">{{
+            solicitation.processNumber | mask: '0000000-00.0000.0.00.0000'
+          }}</a>
+        </ng-template>
+
+        <ng-template #nzDescription>
+          <div nz-row nzType="flex">
+            <div [nzXs]="24" nz-col>Código {{ solicitation.id }}</div>
+            <div [nzXs]="24" nz-col>
+              {{ solicitation.type | solicitationType }}
+            </div>
+            <div [nzXs]="24" nz-col>
+              {{ (solicitation.specificType ? solicitation.specificType : '') | solicitationSpecificType }}
+            </div>
+            <div [nzXs]="24" nz-col>
+              <small>{{ solicitation.date | dateMoment }}</small>
+            </div>
+          </div>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+</nz-card>
+
+<ng-template #cardOptions>
+  <button
+    *ngIf="solicitations && solicitations.content.length > 0"
+    nz-button
+    nzType="default"
+    nzShape="circle"
+    (click)="isCollapsed = !isCollapsed"
+  >
+    <i nz-icon type="filter"></i>
+  </button>
+  <button nz-button nzType="primary" nzShape="circle" [routerLink]="['/client/add-solicitation']">
+    <i nz-icon type="plus"></i>
+  </button>
+</ng-template>
+
+<ng-template #djEmpty>
+  <dj-empty description="Nenhum diagnostico foi solicitado ainda"></dj-empty>
+</ng-template>

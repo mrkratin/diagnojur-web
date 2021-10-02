@@ -1,0 +1,50 @@
+<nz-page-header nzTitle="Tipos de Diagnósticos">
+  <nz-page-header-content>
+    <p class="text-justify">
+      Os diagnósticos abordam de forma descritiva eventos do processo, sem qualquer qualificação, comentário sobre
+      opções certas ou erradas acerca das estratégias, táticas e opções técnico-jurídicas, preservando a independência e
+      autonomia dos profissionais que atuam nos processos.
+    </p>
+  </nz-page-header-content>
+
+  <nz-page-header-footer>
+    <div [nzGutter]="8" nz-row>
+      <div [nzSpan]="8" class="mb-3" nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="8" nzXl="8" nzXs="24">
+        <nz-card nzTitle="Simples">
+          <nz-statistic [nzTitle]="'Diagnóstico de até três últimos e mais atuais eventos do processo'" nzPrefix="R$"
+            nzSuffix=",00" nzValue="80">
+          </nz-statistic>
+        </nz-card>
+      </div>
+
+      <div [nzSpan]="8" class="mb-3" nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="8" nzXl="8" nzXs="24">
+        <nz-card nzTitle="Específico">
+          <nz-statistic [nzTitle]="
+              'Diagnóstico de um evento específico do processo, dentre as opções abaixo'
+            " nzPrefix="R$" nzSuffix=",00" nzValue="120">
+          </nz-statistic>
+
+          <nz-card-meta [nzDescription]="specificTypes" [nzTitle]="'Tipos específicos'" class="mt-3">
+            <ng-template #specificTypes>
+              <nz-list [nzDataSource]="['']" [nzBordered]="false" [nzRenderItem]="e">
+                <ng-template #e let-e>
+                  <nz-divider></nz-divider>
+                  <p *ngFor="let s of sTypes">{{ s.description }}</p>
+                </ng-template>
+              </nz-list>
+            </ng-template>
+          </nz-card-meta>
+        </nz-card>
+      </div>
+
+      <div [nzSpan]="8" class="mb-3" nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="8" nzXl="8" nzXs="24">
+        <nz-card nzTitle="Completo">
+          <nz-statistic [nzTitle]="
+              'Diagnóstico dos eventos, desde a distribuição até o evento mais atual, do que for mais importante.'
+            " nzPrefix="R$" nzSuffix=",00" nzValue="180">
+          </nz-statistic>
+        </nz-card>
+      </div>
+    </div>
+  </nz-page-header-footer>
+</nz-page-header>

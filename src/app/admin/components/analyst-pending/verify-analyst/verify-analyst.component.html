@@ -1,0 +1,54 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>{{ analyst ? analyst.person.name : 'Analista' }}</nz-page-header-title>
+  <nz-page-header-subtitle *ngIf="analyst">OAB {{ analyst.oab | oab }}</nz-page-header-subtitle>
+  <nz-page-header-content>
+    <nz-card [nzBordered]="false" [nzLoading]="isLoading">
+      <nz-row nzJustify="center" nzType="flex">
+        <button
+          (click)="confirmAnalyst()"
+          [disabled]="disabledApproveBtn"
+          [nzLoading]="isConfirming"
+          class="mt-3"
+          nz-button
+          nzType="primary"
+        >
+          <i nz-icon nzType="check"></i>Aprovar Analista Diagnojur
+        </button>
+      </nz-row>
+    </nz-card>
+  </nz-page-header-content>
+
+  <nz-page-header-extra>
+    <button
+      (click)="confirmAnalyst()"
+      [disabled]="disabledApproveBtn"
+      [nzLoading]="isConfirming"
+      nz-button
+      nz-tooltip
+      nzTitle="Aprovar Analista Diagnojur"
+      nzType="primary"
+    >
+      <i nz-icon nzType="check"></i>
+    </button>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<div class="px-3">
+  <nz-card nzTitle="Documentos" [nzLoading]="isLoading" [nzBordered]="false" class="mb-md-3">
+    <div nz-row *ngIf="analyst">
+      <div
+        nz-col
+        class="mb-3"
+        nzXs="24"
+        nzSm="24"
+        nzMd="12"
+        nzLg="8"
+        nzXl="6"
+        nzXXl="6"
+        *ngFor="let doc of analyst.documents"
+      >
+        <dj-document-card [document]="doc"></dj-document-card>
+      </div>
+    </div>
+  </nz-card>
+</div>

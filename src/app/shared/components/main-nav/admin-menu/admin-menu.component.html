@@ -1,0 +1,64 @@
+<li nz-submenu routerLinkActive="ant-menu-item-selected">
+  <span title>
+    <i nz-icon type="user"></i>
+    <span>Área do Administrador</span>
+  </span>
+  <ul>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/admin/billing']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Relatório de pagamento
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/admin/confirm-payment']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Confirmar pagamento
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/admin/transfer-request']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Solicitações de pagamento
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/admin/discount-coupons']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Cupons de Desconto
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/admin/analyst-pending']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Verificar advogado
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/admin/search']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Pesquisar usuários
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/admin/dashboard']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Dashboard
+    </li>
+  </ul>
+</li>

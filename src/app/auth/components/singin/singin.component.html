@@ -1,0 +1,101 @@
+<div class="login-wrapper" *ngIf="fg">
+  <form class="login" [formGroup]="fg" novalidate>
+    <section class="title">
+      <img src="assets/logo_final.png" alt="Diagnojur" />
+      <h5 class="hint">
+        Utilize suas credenciais para entrar, ou crie sua conta agora mesmo, é
+        rápido.
+      </h5>
+    </section>
+    <div class="login-group">
+      <clr-input-container>
+        <label class="clr-sr-only">Email</label>
+        <input
+          type="email"
+          name="email"
+          clrInput
+          placeholder="Email"
+          formControlName="email"
+        />
+      </clr-input-container>
+      <clr-password-container>
+        <label class="clr-sr-only">Senha</label>
+        <input
+          type="password"
+          name="password"
+          clrPassword
+          placeholder="Senha"
+          formControlName="password"
+        />
+      </clr-password-container>
+      <clr-checkbox-wrapper>
+        <label>Lembre-me</label>
+        <input
+          type="checkbox"
+          name="remember"
+          clrCheckbox
+          formControlName="remember"
+        />
+      </clr-checkbox-wrapper>
+      <div class="error active" *ngIf="unauthorized">
+        Email ou senha inválidos
+      </div>
+      <button
+        type="submit"
+        [clrLoading]="btnState"
+        (click)="login()"
+        class="btn btn-primary"
+      >
+        Entrar
+      </button>
+      <a [routerLink]="['/auth/singup']" class="signup"
+        >Cadastre-se no Diagnojur</a
+      >
+      <a (click)="forgotPassword = true" class="signup forgot"
+        >Esqueceu sua senha?</a
+      >
+      <a href="http://diagnojur.com.br" class="signup" target="_blank"
+        >Dúvida / Suporte</a
+      >
+    </div>
+
+    <clr-modal [(clrModalOpen)]="forgotPassword">
+      <h3 class="modal-title">Esqueci minha senha</h3>
+      <div class="modal-body">
+        <p>
+          Informe o email cadastrado, nele receberá informações para prosseguir
+          com a redefinição de senha
+        </p>
+
+        <clr-input-container>
+          <label class="clr-sr-only">Email</label>
+          <input
+            type="email"
+            name="email"
+            clrInput
+            placeholder="Email"
+            formControlName="email"
+          />
+        </clr-input-container>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline"
+          (click)="forgotPassword = false"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="generateToken()"
+          [clrLoading]="forgotBtnState"
+        >
+          Enviar
+        </button>
+      </div>
+    </clr-modal>
+  </form>
+</div>

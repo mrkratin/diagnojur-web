@@ -1,0 +1,65 @@
+<nz-card [nzTitle]="'Confira seus telefones'">
+  <form *ngIf="formGroup" [formGroup]="formGroup" novalidate>
+    <nz-row>
+      <nz-col nzLg="3" nzMd="4" nzSm="4" nzXXl="3" nzXl="3" nzXs="6">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>DDD</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group>
+              <input formControlName="stateCode1" mask="00" nz-input placeholder="DDD" />
+            </nz-input-group>
+            <nz-form-explain *ngIf="formGroup.get('stateCode1')?.dirty && formGroup.get('stateCode1')?.errors">
+              <ng-container *ngIf="formGroup.get('stateCode1')?.hasError('required')">
+                Informe o DDD
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="9" nzMd="8" nzSm="8" nzXXl="9" nzXl="9" nzXs="18">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label nzFor="telephone1">Telefone</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group>
+              <input formControlName="telephone1" id="telephone1" nz-input placeholder="Telefone" />
+            </nz-input-group>
+            <nz-form-explain *ngIf="formGroup.get('telephone1')?.dirty && formGroup.get('telephone1')?.errors">
+              <ng-container *ngIf="formGroup.get('telephone1')?.hasError('required')">
+                Por favor, digite o Telefone
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="3" nzMd="4" nzSm="4" nzXXl="3" nzXl="3" nzXs="6">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>DDD 2</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group>
+              <input formControlName="stateCode2" mask="00" nz-input placeholder="DDD" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="9" nzMd="8" nzSm="8" nzXXl="9" nzXl="9" nzXs="18">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label nzFor="telephone2">Telefone 2</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group>
+              <input formControlName="telephone2" id="telephone2" nz-input placeholder="Telefone" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+
+    <nz-row nzJustify="end" nzType="flex">
+      <button (click)="save()" [nzLoading]="isLoading" [disabled]="formGroup.invalid" nz-button nzType="primary">
+        Salvar
+      </button>
+    </nz-row>
+  </form>
+</nz-card>

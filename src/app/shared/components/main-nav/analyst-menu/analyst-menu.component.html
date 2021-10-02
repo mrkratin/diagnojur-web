@@ -1,0 +1,20 @@
+<li nz-submenu routerLinkActive="ant-menu-item-selected">
+  <span title>
+    <i nz-icon type="user"></i>
+    <span>Área do Analista</span>
+  </span>
+  <ul>
+    <li (click)="isCollapsed = !isCollapsed" [routerLink]="['/analyst/diagnostic']" nz-menu-item
+      routerLinkActive="ant-menu-item-selected">
+      Novo Diagnóstico
+    </li>
+    <li (click)="isCollapsed = !isCollapsed" [routerLink]="['/analyst/list-diagnosis']" nz-menu-item
+      routerLinkActive="ant-menu-item-selected">
+      Meus Diagnósticos
+    </li>
+    <li (click)="isCollapsed = !isCollapsed" [routerLink]="['/analyst/billing']" nz-menu-item
+      routerLinkActive="ant-menu-item-selected">
+      Faturamento
+    </li>
+  </ul>
+</li>

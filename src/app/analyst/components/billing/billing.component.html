@@ -1,0 +1,12 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>Faturamento</nz-page-header-title>
+</nz-page-header>
+
+<nz-tabset class="px-3">
+  <nz-tab nzTitle="Transferências">
+    <dj-list-transfers></dj-list-transfers>
+  </nz-tab>
+  <nz-tab nzTitle="Pedidos de saque">
+    <dj-list-request-withdraw></dj-list-request-withdraw>
+  </nz-tab>
+</nz-tabset>

@@ -1,0 +1,11 @@
+<nz-card *ngIf="document" [nzCover]="docCover">
+  <nz-card-meta [nzDescription]="docDescription" [nzTitle]="document.type"></nz-card-meta>
+</nz-card>
+<ng-template #docCover>
+  <a [href]="document.url" target="_blank">
+    <img [alt]="document.type" [src]="document.url" class="img-fluid" style="height: 200px;" />
+  </a>
+</ng-template>
+<ng-template #docDescription>
+  <nz-tag nzColor="#f60">{{ document.status }}</nz-tag>
+</ng-template>

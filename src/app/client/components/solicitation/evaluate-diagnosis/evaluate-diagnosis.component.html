@@ -1,0 +1,6 @@
+<form *ngIf="diagnosis" [formGroup]="formGroup">
+  <p class="font-weight-bold">Qual seu nível de satisfação com esse Diagnostico?</p>
+  <div class="text-center">
+    <nz-rate [nzTooltips]="descriptions" formControlName="rate"></nz-rate>
+  </div>
+</form>

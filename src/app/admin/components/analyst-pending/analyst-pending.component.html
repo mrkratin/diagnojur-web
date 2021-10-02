@@ -1,0 +1,89 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>Verificar Analista</nz-page-header-title>
+  <nz-page-header-content>
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'Filtros'">
+        <form [formGroup]="formGroup" novalidate>
+          <nz-row>
+            <nz-col nzLg="4" nzXs="12">
+              <nz-form-item>
+                <nz-form-label nzFor="select-size">Itens por página</nz-form-label>
+                <nz-form-control>
+                  <nz-select formControlName="size" id="select-size">
+                    <nz-option [nzValue]="5" nzLabel="5"></nz-option>
+                    <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+                    <nz-option [nzValue]="15" nzLabel="15"></nz-option>
+                    <nz-option [nzValue]="20" nzLabel="20"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+
+            <nz-col nzLg="4" nzXs="12">
+              <nz-form-item>
+                <nz-form-label nzFor="select-order-by">Ordenação</nz-form-label>
+                <nz-form-control>
+                  <nz-select formControlName="orderBy" id="select-order-by">
+                    <nz-option [nzValue]="'person.name'" nzLabel="Nome"></nz-option>
+                    <nz-option [nzValue]="'creationDate'" nzLabel="Data"></nz-option>
+                    <nz-option [nzValue]="'id'" nzLabel="Código"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+
+            <nz-col nzLg="4" nzXs="12">
+              <nz-form-item>
+                <nz-form-label nzFor="select-direction">Direção</nz-form-label>
+                <nz-form-control>
+                  <nz-select formControlName="direction" id="select-direction">
+                    <nz-option [nzValue]="directions[0]" nzLabel="Decrescente"></nz-option>
+                    <nz-option [nzValue]="directions[1]" nzLabel="Crescente"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+
+            <nz-col nzLg="12" nzXs="24">
+              <nz-form-item>
+                <nz-form-label [nzFor]="'input-name'">Nome</nz-form-label>
+                <nz-form-control>
+                  <input formControlName="name" id="input-name" nz-input />
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+        </form>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-page-header-content>
+</nz-page-header>
+
+<nz-table class="mx-3 mt-1 mb-3" #table [nzLoading]="isLoading" [nzData]="analysts ? analysts.content : []"
+  [nzShowPagination]="false" [nzFooter]="footer" nzTitle="Analistas pendentes" [nzBordered]="true">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nome</th>
+      <th>Data</th>
+      <th>Ação</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let data of table.data">
+      <td>{{ data.id }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.creationDate | dateMoment: fromNow }}</td>
+      <td><a [routerLink]="['/admin/verify-analyst', data.id]">Verificar</a></td>
+    </tr>
+  </tbody>
+
+  <ng-template #footer>
+    <nz-row nzJustify="end" nzType="flex">
+      <nz-pagination *ngIf="analysts" (nzPageIndexChange)="pageChange($event)" [nzSize]="'small'"
+        [nzPageIndex]="analysts.number + 1" [nzPageSize]="analysts.size" [nzTotal]="analysts.totalElements">
+      </nz-pagination>
+    </nz-row>
+  </ng-template>
+</nz-table>

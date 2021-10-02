@@ -1,0 +1,29 @@
+<form [formGroup]="fg" novalidate>
+  <nz-input-group [nzSuffix]="suffixIconSearch">
+    <input type="text" formControlName="city" nz-input placeholder="Pesquise a cidade" />
+  </nz-input-group>
+  <ng-template #suffixIconSearch>
+    <i nz-icon nzType="search"></i>
+  </ng-template>
+</form>
+
+<nz-table #citiesTable [nzData]="cities">
+  <thead>
+    <tr>
+      <th>Cidade</th>
+      <th>UF</th>
+      <th>Ação</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of citiesTable.data">
+      <td>{{data.name}}</td>
+      <td>{{data.uf}}</td>
+      <td><a (click)="destroyModal(data)">Selecionar</a></td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="destroyModal()">Fechar</button>
+</div>

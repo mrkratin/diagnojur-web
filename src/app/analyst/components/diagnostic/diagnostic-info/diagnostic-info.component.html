@@ -1,0 +1,111 @@
+<div>
+  <nz-card [nzBordered]="false" [nzExtra]="extra" [nzLoading]="!diagnostic" nzTitle="Informações sobre a Diagnóstico">
+    <ng-template #extra>
+      <button (click)="showInfo = !showInfo" nz-button nzShape="circle" nzType="default">
+        <i [nzType]="showInfo ? 'up' : 'down'" nz-icon nzTheme="outline"></i>
+      </button>
+    </ng-template>
+
+    <dl *ngIf="showInfo" nz-row>
+      <nz-col *ngIf="deadLine" [nzSpan]="24" class="mb-3">
+        <nz-countdown [nzTitle]="'Tempo restante'" [nzValue]="deadLine" class="float-right mr-2"></nz-countdown>
+      </nz-col>
+
+      <nz-alert class="mb-3" nzShowIcon nzType="warning" nzMessage="Atenção" [nzDescription]="alertMessage">
+        <ng-template #alertMessage>
+          Caro analista, através da consulta pelo número do processo, no site do tribunal, você deverá indicar o orgão,
+          o grau, o local, o tipo de justiça, além do tipo de recurso, se houver, para fazer constar essas informações
+          no
+          diagnóstico produzido, lembrando que os eventos a serem lançados, sempre devem ser os mais atuais.
+        </ng-template>
+      </nz-alert>
+
+      <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        Número do Processo
+      </dt>
+      <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnostic.solicitation.process.processNumber|mask:'0000000-00.0000.0.00.0000' }}
+      </dd>
+
+      <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        Tipo de Diagnóstico
+      </dt>
+      <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnostic.solicitation.type | solicitationType }} ({{solicitationTypeDescription}})
+      </dd>
+
+      <div *ngIf="diagnostic.solicitation.specificType">
+        <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+          Tipo especificado
+        </dt>
+        <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+          {{ diagnostic.solicitation.specificType | solicitationSpecificType }}
+        </dd>
+      </div>
+
+      <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        Tipo do processo
+      </dt>
+      <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnostic.solicitation.process.type | processType }}
+      </dd>
+
+      <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        Tipo de Justiça
+      </dt>
+      <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnostic.solicitation.process.justiceType | justiceType }}
+      </dd>
+
+      <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        Comarca
+      </dt>
+      <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnostic.solicitation.process.county.name }} -
+        {{ diagnostic.solicitation.process.county.uf }}
+      </dd>
+
+      <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        Processo com advogado?
+      </dt>
+      <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnostic.solicitation.process.withLawyer | yesNo }}
+      </dd>
+
+      <div *ngIf="diagnostic.solicitation.process.withLawyer">
+        <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+          OAB do advogado
+        </dt>
+        <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+          {{ diagnostic.solicitation.process.oab | oab }}
+        </dd>
+      </div>
+
+      <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+        Processo sigiloso?
+      </dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnostic.solicitation.process.confidentialProcess | yesNo }}
+      </dd>
+
+      <div *ngIf="diagnostic.solicitation.process.confidentialProcess">
+        <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+          Senha de justiça
+        </dt>
+        <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+          {{ diagnostic.solicitation.process.justiceSecret }}
+        </dd>
+      </div>
+
+      <div *ngIf="diagnostic && diagnostic.evaluation">
+        <dt nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+          Diagnóstico avaliado
+        </dt>
+        <dd nz-col nzLg="6" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="24">
+          {{ diagnostic.evaluation.rate }}
+          <i nz-icon nzTheme="fill" nzType="star"></i>
+        </dd>
+      </div>
+    </dl>
+  </nz-card>
+</div>

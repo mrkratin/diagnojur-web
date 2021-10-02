@@ -1,0 +1,39 @@
+<nz-page-header>
+  <nz-page-header-title>
+    {{ profile ? profile.name : 'Usuário nº' + id }}
+  </nz-page-header-title>
+
+  <nz-page-header-footer>
+    <!--<div nz-row nzType="flex" nzJustify="center">-->
+    <ul nz-menu nzMode="horizontal">
+      <li [routerLink]="['info']" nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="user"></i>
+        <span class="d-none d-lg-inline">Informações Pessoais</span>
+      </li>
+
+      <li [routerLink]="['analyst']" nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="smile"></i>
+        <span class="d-none d-lg-inline">Analista</span>
+      </li>
+
+      <li [routerLink]="['address']" nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="home"></i>
+        <span class="d-none d-lg-inline">Endereço</span>
+      </li>
+
+      <li [routerLink]="['phone']" nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="phone"></i>
+        <span class="d-none d-lg-inline">Telefones</span>
+      </li>
+    </ul>
+    <!--</div>-->
+  </nz-page-header-footer>
+</nz-page-header>
+
+<div *ngIf="profile" class="p-3">
+  <router-outlet></router-outlet>
+</div>
+
+<div *ngIf="isLoading" class="mt-5">
+  <nz-spin></nz-spin>
+</div>

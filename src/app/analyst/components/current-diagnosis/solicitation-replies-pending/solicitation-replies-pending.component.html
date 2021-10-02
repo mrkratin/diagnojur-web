@@ -1,0 +1,45 @@
+<ng-template #listHeader>
+  <b class="text-danger">Solicitações de Réplicas Pendentes</b>
+</ng-template>
+
+<nz-list
+  [nzLoading]="!replies"
+  [nzDataSource]="replies"
+  [nzRenderItem]="replyItem"
+  [nzHeader]="listHeader"
+  nzItemLayout="vertical"
+>
+  <ng-template #replyItem let-reply>
+    <nz-list-item [nzExtra]="eyeReply">
+      <nz-list-item-meta [nzTitle]="replyTitle" [nzDescription]="replyDescription"></nz-list-item-meta>
+
+      <ng-template #replyTitle>
+        <a [routerLink]="['/analyst/diagnostic', reply.diagnosis]">Solicitação de Réplica {{ reply.id }}</a>
+      </ng-template>
+
+      <ng-template #replyDescription>
+        <div nz-row nzType="flex">
+          <div *ngIf="reply.description" [nzXs]="24" nz-col>
+            {{ reply.description }}
+          </div>
+          <div [nzXs]="24" nz-col>
+            {{ reply.reason | solicitationReplyReason }}
+          </div>
+          <div [nzXs]="24" nz-col>
+            <small>{{ reply.date | dateMoment: fromNow }}</small>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #eyeReply>
+        <i
+          nz-tooltip
+          nzTitle="Visualizar"
+          nz-icon
+          nzType="eye"
+          [routerLink]="['/analyst/diagnostic', reply.diagnosis]"
+        ></i>
+      </ng-template>
+    </nz-list-item>
+  </ng-template>
+</nz-list>

@@ -1,0 +1,23 @@
+<ng-template #listHeader>
+  <b>Próximo Diagnóstico</b>
+</ng-template>
+
+<nz-list [nzDataSource]="['']" [nzRenderItem]="item" [nzHeader]="listHeader" nzItemLayout="vertical">
+  <ng-template #item>
+    <nz-list-item [nzActions]="[action]">
+      <nz-list-item-meta [nzDescription]="description"></nz-list-item-meta>
+
+      <ng-template #description>
+        Caro Analista, para começar a produzir diagnósticos você deverá clicar nos Diagnósticos disponíveis
+      </ng-template>
+
+      <ng-template #action>
+        <button class="mt-3" nz-button [nzLoading]="isLoading" nzType="primary" [disabled]="replyPending"
+          (click)="nextDiagnosis()">
+          <i nz-icon nzType="search"></i>
+          Verificar Diagnósticos disponíveis
+        </button>
+      </ng-template>
+    </nz-list-item>
+  </ng-template>
+</nz-list>

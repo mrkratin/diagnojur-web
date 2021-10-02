@@ -1,0 +1,44 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>Cadastro de Analista Diagnojur</nz-page-header-title>
+  <nz-page-header-extra>
+    <button (click)="onBack()" nz-button nzShape="circle" nzType="primary">
+      <i [type]="current !== 3 ? 'close' : 'home'" nz-icon></i>
+    </button>
+  </nz-page-header-extra>
+  <nz-page-header-content *ngIf="me">
+    <dj-pending></dj-pending>
+  </nz-page-header-content>
+  <nz-page-header-content *ngIf="!me">
+    <div *ngIf="current !== 3" class="mt-3" nz-row>
+      <nz-steps [nzCurrent]="current">
+        <nz-step nzIcon="user" nzTitle="Info. Básicas"></nz-step>
+        <nz-step nzIcon="solution" nzTitle="Documentação"></nz-step>
+        <nz-step nzIcon="check" nzTitle="Confirmação"></nz-step>
+      </nz-steps>
+    </div>
+
+    <div class="p-0 p-md-2 p-lg-3 p-xl-5">
+      <dj-step-one #stepOne (sendLockNext)="getLockNext($event)" *ngIf="current === 0" [fg]="formGroupOne">
+      </dj-step-one>
+      <dj-step-two #stepTwo (sendLockNext)="getLockNext($event)" *ngIf="current === 1"></dj-step-two>
+      <dj-step-three #stepThree (sendLockFinish)="getLockNext($event)" *ngIf="current === 2"></dj-step-three>
+      <dj-step-fourth *ngIf="current === 3"></dj-step-fourth>
+    </div>
+  </nz-page-header-content>
+
+  <nz-page-header-footer *ngIf="current !== 3">
+    <div class="float-right mb-3">
+      <nz-button-group *ngIf="current > 0 && current < maxSteps">
+        <button (click)="back()" [disabled]="disabledBack" nz-button nzType="default">Voltar</button>
+        <button (click)="next()" [disabled]="disabledNext" nz-button nzType="primary">Próximo</button>
+      </nz-button-group>
+      <button (click)="next()" *ngIf="current === 0" [disabled]="disabledNext" nz-button nzType="primary">
+        Próximo
+      </button>
+      <button (click)="finish()" *ngIf="current === maxSteps" [disabled]="disabledFinish" [nzLoading]="isLoading"
+        nz-button nzType="primary">
+        Finalizar
+      </button>
+    </div>
+  </nz-page-header-footer>
+</nz-page-header>

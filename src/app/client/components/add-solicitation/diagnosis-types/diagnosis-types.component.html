@@ -1,0 +1,33 @@
+<nz-card class="mb-3">
+  <nz-card-meta [nzDescription]="simple" nzTitle="Simples"> </nz-card-meta>
+  <ng-template #simple>
+    <nz-statistic nzValue="80" nzPrefix="R$" nzSuffix=",00"
+      [nzTitle]="'Diagnóstico de até três últimos e mais atuais eventos do processo'">
+    </nz-statistic>
+  </ng-template>
+</nz-card>
+
+<nz-card class="mb-3">
+  <nz-card-meta [nzDescription]="specific" nzTitle="Especifíco"> </nz-card-meta>
+  <ng-template #specific>
+    <nz-statistic nzValue="120" nzPrefix="R$" nzSuffix=",00"
+      [nzTitle]="'Diagnóstico de um evento específico do processo, dentre as opções abaixo'">
+    </nz-statistic>
+    <nz-list [nzDataSource]="['']" [nzBordered]="false" [nzRenderItem]="e">
+      <ng-template #e let-e>
+        <nz-divider></nz-divider>
+        <p *ngFor="let s of sTypes">{{ s.description }}</p>
+      </ng-template>
+    </nz-list>
+  </ng-template>
+</nz-card>
+
+<nz-card class="mb-3">
+  <nz-card-meta [nzDescription]="complete" nzTitle="Completo"> </nz-card-meta>
+  <ng-template #complete>
+    <nz-statistic [nzTitle]="
+        'Diagnóstico dos eventos, desde a distribuição até o evento mais atual, do que for mais importante.'
+      " nzPrefix="R$" nzSuffix=",00" nzValue="180">
+    </nz-statistic>
+  </ng-template>
+</nz-card>

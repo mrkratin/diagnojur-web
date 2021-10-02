@@ -1,0 +1,117 @@
+<nz-card [nzTitle]="'Analista Diagnojur'">
+  <nz-card-meta nzDescription="Analista desde {{ analyst.creationDate | dateMoment }}"> </nz-card-meta>
+
+  <form style="margin-top: 20px;" *ngIf="formGroup" [formGroup]="formGroup" novalidate>
+    <div nz-col nzSm="24" nzXs="24">
+      <span nz-text><strong>Dados do Analista</strong></span>
+    </div>
+
+    <nz-row nzGutter="16">
+      <div nz-col nzLg="12" nzMd="12" nzSm="12" nzXXl="6" nzXl="8" nzXs="24">
+        <nz-form-item>
+          <nz-form-label>Especialidades</nz-form-label>
+          <nz-form-control>
+            <label formControlName="civel" nz-checkbox>Cível</label>
+            <label formControlName="criminal" nz-checkbox>Criminal</label>
+            <label formControlName="labor" nz-checkbox>Trabalhista</label>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzLg="4" nzMd="12" nzSm="12" nzXXl="4" nzXl="4" nzXs="24">
+        <nz-form-item>
+          <nz-form-label nzFor="oab-number">OAB</nz-form-label>
+          <nz-form-control>
+            <nz-input-group [nzAddOnAfter]="selectUf">
+              <input [validation]="false" formControlName="oabNumber" id="oab-number" mask="0000000" nz-input
+                placeholder="nº OAB" type="text" />
+            </nz-input-group>
+            <ng-template #selectUf>
+              <nz-select formControlName="oabUf" style="width: 75px;">
+                <nz-option *ngFor="let u of ufs" [nzLabel]="u" [nzValue]="u"></nz-option>
+              </nz-select>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSm="4" nzXs="12" *ngIf="analyst.status === 'AVAILABLE' || analyst.status === 'UNAVAILABLE'">
+        <nz-form-item>
+          <nz-form-label>Status</nz-form-label>
+          <nz-form-control>
+            <span style="margin-right: 10px;">{{ formGroup.value.status ? 'Disponível' : 'Indisponível' }}</span>
+            <nz-switch formControlName="status"></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <!-- <div nz-col nzSm="4" nzXs="12">
+        <nz-form-item>
+          <nz-form-label>VIP</nz-form-label>
+          <nz-form-control>
+            <span style="margin-right: 10px;">Analista VIP</span>
+            <nz-switch formControlName="vip"></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+      </div> -->
+    </nz-row>
+
+    <nz-row nzGutter="8">
+      <div nz-col nzSm="24" nzXs="24">
+        <span nz-text><strong>Dados bancários</strong></span>
+      </div>
+      <div nz-col nzSm="12" nzLg="8" nzXs="24">
+        <nz-form-item>
+          <nz-form-label>Banco</nz-form-label>
+          <nz-form-control>
+            <nz-select (nzOnSearch)="searchBank($event)" [nzLoading]="banksIsLoading" formControlName="bank"
+              nzPlaceHolder="Banco" nzShowSearch>
+              <nz-option *ngFor="let b of banks" [nzLabel]="b.description" [nzValue]="b.id"></nz-option>
+            </nz-select>
+            <nz-form-explain>
+              Escreva as primeiras letras que aparecerá seu banco
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSm="4" nzXs="12">
+        <nz-form-item>
+          <nz-form-label>Agência</nz-form-label>
+          <nz-form-control>
+            <input formControlName="agency" nz-input placeholder="Agência" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzSm="5" nzXs="12">
+        <nz-form-item>
+          <nz-form-label nzFor="account">Conta Corrente e dígito</nz-form-label>
+          <nz-form-control>
+            <nz-input-group nzCompact>
+              <input formControlName="account" id="account" nz-input placeholder="Conta" style="width: 60%;" />
+              <input formControlName="digit" nz-input placeholder="Dig." style="width: 40%;" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </nz-row>
+
+    <nz-row nzJustify="end" nzType="flex">
+      <button (click)="save()" [nzLoading]="isLoading" [disabled]="formGroup.invalid" nz-button nzType="primary">
+        Salvar
+      </button>
+    </nz-row>
+  </form>
+</nz-card>
+
+<div class="mt-3">
+  <nz-card nzTitle="Documentos" [nzLoading]="isLoading">
+    <div nz-row *ngIf="analyst">
+      <div nz-col class="mb-3" nzXs="24" nzSm="24" nzMd="12" nzLg="8" nzXl="6" nzXXl="6"
+        *ngFor="let doc of analyst.documents">
+        <dj-document-card [document]="doc"></dj-document-card>
+      </div>
+    </div>
+  </nz-card>
+</div>

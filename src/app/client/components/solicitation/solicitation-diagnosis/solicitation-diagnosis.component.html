@@ -1,0 +1,101 @@
+<nz-tabset>
+  <nz-tab nzTitle="Informações">
+    <dl nz-row>
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Nome do Juiz Jugador</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnosis.proceduralInformation.judgesName }}
+      </dd>
+
+      <dt *ngIf="diagnosis.proceduralInformation.resource" nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">
+        Tipo de Recurso
+      </dt>
+      <dd *ngIf="diagnosis.proceduralInformation.resource" nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnosis.proceduralInformation.resource | processResourceType }}
+      </dd>
+
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Grau do Processo</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ diagnosis.proceduralInformation.degree | processDegree }}</dd>
+
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Orgão do Processo</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ diagnosis.proceduralInformation.organ | processOrgan }}</dd>
+
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Orgão de Tramitação</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">
+        {{ diagnosis.proceduralInformation.processingOrgan }}</dd>
+    </dl>
+  </nz-tab>
+
+  <nz-tab nzTitle="Partes">
+    <nz-list [nzDataSource]="diagnosis.parts" [nzRenderItem]="part">
+      <ng-template #part let-part>
+        <nz-list-item>
+          <nz-list-item-meta [nzDescription]="part.type | partType" [nzTitle]="part.name"></nz-list-item-meta>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </nz-tab>
+
+  <nz-tab nzTitle="Eventos">
+    <nz-list [nzDataSource]="diagnosis.processEvents" [nzRenderItem]="processEvent" nzItemLayout="vertical">
+      <ng-template #processEvent let-processEvent>
+        <nz-list-item [nzContent]="dateProcess">
+          <nz-list-item-meta [nzDescription]="processEvent.description" [nzTitle]="processEvent.title">
+          </nz-list-item-meta>
+          <ng-template #dateProcess>
+            <small>{{ processEvent.dateOccurrence | dateMoment }}</small>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </nz-tab>
+
+  <nz-tab *ngIf="diagnosis.solicitationReply" nzTitle="Réplica">
+    <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Motivo</dt>
+    <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">
+      {{ diagnosis.solicitationReply.reason | solicitationReplyReason }}
+    </dd>
+
+    <div nz-col nzLg="24" nzXXl="24" nzXl="24" nzXs="24">
+      <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Data da solicitação</dt>
+      <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ diagnosis.solicitationReply.creationDate | dateMoment }}</dd>
+
+      <div *ngIf="diagnosis.solicitationReply.reply">
+        <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Data da réplica</dt>
+        <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">
+          {{ diagnosis.solicitationReply.reply.dateReply | dateMoment }}
+        </dd>
+      </div>
+    </div>
+
+    <div *ngIf="diagnosis.solicitationReply.description">
+      <dt nz-col nzLg="24" nzXXl="24" nzXl="24" nzXs="24">Descrição do motivo</dt>
+      <dd nz-col nzLg="12" nzXXl="12" nzXl="12" nzXs="24">{{ diagnosis.solicitationReply.description }}</dd>
+    </div>
+
+    <div *ngIf="diagnosis.solicitationReply.reply">
+      <dt nz-col nzLg="24" nzXXl="24" nzXl="24" nzXs="24">Resposta do Analista</dt>
+      <dd class="text-justify" nz-col nzLg="12" nzXXl="12" nzXl="12" nzXs="24">
+        {{ diagnosis.solicitationReply.reply.description }}
+      </dd>
+    </div>
+
+    <!--<nz-list [nzDataSource]="[diagnosis.solicitationReply]" [nzRenderItem]="solicitationReply" nzItemLayout="vertical">-->
+
+    <!--<ng-template #solicitationReply let-solicitationReply>-->
+    <!--<nz-list-item>-->
+    <!--<nz-list-item-meta [nzDescription]="solicitationReply.reason" nzTitle="Motivo"></nz-list-item-meta>-->
+    <!--<nz-list-item-meta [nzDescription]="solicitationReply.description" nzTitle="Descrição do motivo">-->
+    <!--</nz-list-item-meta>-->
+    <!--<nz-list-item-meta [nzDescription]="solicitationReply.date|dateMoment" nzTitle="Data da solicitação">-->
+    <!--</nz-list-item-meta>-->
+    <!--<nz-list-item-meta [nzDescription]="solicitationReply.reply.responseDate|dateMoment"-->
+    <!--nzTitle="Data da réplica">-->
+    <!--</nz-list-item-meta>-->
+    <!--<nz-list-item-meta [nzDescription]="solicitationReply.reply.description" nzTitle="Resposta do Analista">-->
+    <!--</nz-list-item-meta>-->
+    <!--</nz-list-item>-->
+    <!--</ng-template>-->
+
+    <!--</nz-list>-->
+  </nz-tab>
+</nz-tabset>

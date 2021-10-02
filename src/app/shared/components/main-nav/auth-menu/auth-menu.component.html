@@ -1,0 +1,26 @@
+<ul [nzInlineCollapsed]="isCollapsed" [nzMode]="'inline'" [nzTheme]="'light'" nz-menu style="height: inherit;">
+  <li
+    (click)="isCollapsed = !isCollapsed"
+    [routerLink]="['/auth/singin']"
+    nz-menu-item
+    routerLinkActive="ant-menu-item-selected"
+  >
+    <span><i nz-icon theme="outline" type="user"></i><span class="nav-text">Entrar</span></span>
+  </li>
+  <li
+    (click)="isCollapsed = !isCollapsed"
+    [routerLink]="['/auth/singup']"
+    nz-menu-item
+    routerLinkActive="ant-menu-item-selected"
+  >
+    <span><i nz-icon theme="outline" type="user-add"></i><span class="nav-text">Criar Conta</span></span>
+  </li>
+  <li
+    (click)="isCollapsed = !isCollapsed"
+    [routerLink]="['/auth/forgot']"
+    nz-menu-item
+    routerLinkActive="ant-menu-item-selected"
+  >
+    <span><i nz-icon theme="outline" type="lock"></i><span class="nav-text">Recuperar Senha</span></span>
+  </li>
+</ul>

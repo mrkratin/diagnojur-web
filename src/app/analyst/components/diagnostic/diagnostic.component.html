@@ -1,0 +1,64 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>
+    Diagnóstico {{ diagnostic ? 'nº ' + diagnostic.id : '' }}
+  </nz-page-header-title>
+
+  <nz-page-header-extra *ngIf="diagnostic">
+    <button
+      (click)="answerDiagnosticConfirm()"
+      *ngIf="diagnostic && showAnswerBtn"
+      nz-button
+      nzType="primary"
+    >
+      <i nz-icon nzType="save"></i>
+    </button>
+  </nz-page-header-extra>
+
+  <nz-page-header-tags *ngIf="diagnostic">
+    <nz-tag [nzColor]="'#f50'">{{
+      diagnostic.status | diagnosisStatus
+    }}</nz-tag>
+  </nz-page-header-tags>
+
+  <nz-page-header-content>
+    <dj-diagnostic-info
+      *ngIf="diagnostic"
+      [diagnostic]="diagnostic"
+    ></dj-diagnostic-info>
+    <div nz-row nzJustify="end" nzType="flex">
+      <div nz-col>
+        <button
+          (click)="answerDiagnosticConfirm()"
+          *ngIf="showAnswerBtn"
+          [nzLoading]="isLoading"
+          nz-button
+          nzType="primary"
+        >
+          <i nz-icon nzType="save"></i>Finalizar Diagnóstico
+        </button>
+        <button
+          (click)="answerReply()"
+          *ngIf="showAnswerReplyBtn"
+          nz-button
+          nzType="primary"
+        >
+          <span class="mr-2"><i class="fas fa-paper-plane"></i></span>
+          Responder Réplica
+        </button>
+      </div>
+    </div>
+  </nz-page-header-content>
+
+  <nz-page-header-footer>
+    <dj-diagnostic-answer
+      #diagnosticAnswer
+      *ngIf="diagnostic && !completed"
+      [diagnostic]="diagnostic"
+    >
+    </dj-diagnostic-answer>
+    <dj-diagnostic-display
+      *ngIf="diagnostic && completed"
+      [diagnostic]="diagnostic"
+    ></dj-diagnostic-display>
+  </nz-page-header-footer>
+</nz-page-header>

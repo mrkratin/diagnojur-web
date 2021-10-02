@@ -1,0 +1,27 @@
+<div>
+  <h4 nz-title>Esqueceu sua senha?</h4>
+  <form [formGroup]="formGroup" novalidate>
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group nzPrefixIcon="mail">
+          <input type="email" nz-input formControlName="email" placeholder="Email" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item
+      ><nz-form-control>
+        <button
+          nz-button
+          nzBlock
+          [nzType]="'primary'"
+          (click)="generateToken()"
+          [disabled]="formGroup.invalid"
+          [nzLoading]="isLoading"
+        >
+          Confirmar
+        </button>
+      </nz-form-control></nz-form-item
+    >
+  </form>
+</div>

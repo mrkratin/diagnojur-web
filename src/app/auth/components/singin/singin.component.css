@@ -1,0 +1,14 @@
+.login-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  background: url('/assets/504423-PHS4GU-934.jpg');
+  background-size: 100%;
+  background-position: 21rem 0;
+  background-repeat: no-repeat;
+}
+
+.forgot {
+  font-size: 12px;
+}

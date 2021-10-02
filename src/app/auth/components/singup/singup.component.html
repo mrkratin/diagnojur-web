@@ -1,0 +1,48 @@
+<div class="login-wrapper" *ngIf="fg">
+  <form clrForm class="login" [formGroup]="fg" novalidate>
+    <section class="title">
+      <img src="assets/logo_final.png" alt="Diagnojur" />
+    </section>
+    <div class="login-group">
+      <clr-input-container>
+        <label class="clr-sr-only">Nome Completo</label>
+        <input type="text" name="name" clrInput placeholder="Nome Completo" formControlName="name" />
+      </clr-input-container>
+      <clr-input-container>
+        <label class="clr-sr-only">Email</label>
+        <input type="email" name="email" clrInput placeholder="Email" formControlName="email" />
+      </clr-input-container>
+      <clr-password-container>
+        <label class="clr-sr-only">Senha</label>
+        <input type="password" name="password" clrPassword placeholder="Senha" formControlName="password" />
+      </clr-password-container>
+      <clr-input-container>
+        <label class="clr-sr-only">CPF</label>
+        <input type="text" clrInput name="cpf" placeholder="CPF" formControlName="cpf" />
+      </clr-input-container>
+      <clr-input-container>
+        <label class="clr-sr-only">Data de nascimento</label>
+        <input
+          type="text"
+          clrInput
+          name="dateBirth"
+          mask="00/00/0000"
+          [validation]="false"
+          placeholder="Data de nascimento"
+          formControlName="dateBirth"
+        />
+      </clr-input-container>
+      <clr-input-container>
+        <label class="clr-sr-only">Indicado por alguém?</label>
+        <input type="text" name="indicator" clrInput placeholder="Indicado por alguém?" formControlName="indicator" />
+        <clr-control-helper
+          >Nos conte a matricula do seu amigo, assim ele ganha créditos com seus diagnósticos!*</clr-control-helper
+        >
+      </clr-input-container>
+      <button type="submit" [clrLoading]="btnState" (click)="singup()" class="btn btn-primary">
+        Realizar Cadastro
+      </button>
+      <a [routerLink]="['/auth/singin']" class="signup">Já sou cadastrado</a>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,111 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>Pesquisar usuários</nz-page-header-title>
+  <nz-page-header-content>
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'Filtros'">
+        <form [formGroup]="formGroup" novalidate>
+          <nz-row>
+            <nz-col nzLg="4" nzXs="12">
+              <nz-form-item>
+                <nz-form-label nzFor="select-size">Itens por página</nz-form-label>
+                <nz-form-control>
+                  <nz-select formControlName="size" id="select-size">
+                    <nz-option [nzValue]="5" nzLabel="5"></nz-option>
+                    <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+                    <nz-option [nzValue]="15" nzLabel="15"></nz-option>
+                    <nz-option [nzValue]="20" nzLabel="20"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+
+            <nz-col nzLg="6" nzXs="12">
+              <nz-form-item>
+                <nz-form-label nzFor="select-order-by">Ordenação</nz-form-label>
+                <nz-form-control>
+                  <nz-select formControlName="orderBy" id="select-order-by">
+                    <nz-option [nzValue]="'name'" nzLabel="Nome"></nz-option>
+                    <nz-option [nzValue]="'creationDate'" nzLabel="Data"></nz-option>
+                    <nz-option [nzValue]="'id'" nzLabel="Código"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+
+            <nz-col nzLg="6" nzXs="12">
+              <nz-form-item>
+                <nz-form-label nzFor="select-search-by">Pesquisar por</nz-form-label>
+                <nz-form-control>
+                  <nz-select formControlName="searchBy" id="select-search-by">
+                    <nz-option [nzValue]="'name'" nzLabel="Nome"></nz-option>
+                    <nz-option [nzValue]="'cpf'" nzLabel="CPF"></nz-option>
+                    <nz-option [nzValue]="'email'" nzLabel="Email"></nz-option>
+                    <nz-option [nzValue]="'oab'" nzLabel="OAB"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+
+            <nz-col nzLg="8" nzXs="24">
+              <nz-form-item>
+                <nz-form-label [nzFor]="'input-name'">Pesquisa</nz-form-label>
+                <nz-form-control>
+                  <nz-input-group [nzAddOnAfter]="suffixIconButton" nzSearch>
+                    <input formControlName="search" id="input-name" nz-input />
+                  </nz-input-group>
+                  <ng-template #suffixIconButton>
+                    <button (click)="search()" nz-button nzSearch nzType="primary">
+                      <i nz-icon nzType="search"></i>
+                    </button>
+                  </ng-template>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+        </form>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-page-header-content>
+</nz-page-header>
+
+<div class="px-3">
+  <nz-list
+    [nzLoading]="isLoading"
+    [nzDataSource]="persons ? persons.content : []"
+    [nzRenderItem]="personRender"
+    nzItemLayout="vertical"
+  >
+    <ng-template #personRender let-person>
+      <nz-list-item [nzActions]="[personEdit]" [nzExtra]="personProfiles">
+        <nz-list-item-meta [nzTitle]="personTitle" [nzDescription]="personDescription">
+          <ng-template #personTitle>
+            <a [routerLink]="['/admin/profile', person.id]">{{ person.name }}</a>
+          </ng-template>
+          <ng-template #personDescription>
+            <p><span class="font-weight-bold-700">Código</span> {{ person.id }}</p>
+            <p><span class="font-weight-bold-700">Email</span> {{ person.email }}</p>
+            <p><span class="font-weight-bold-700">Matricula</span> {{ person.registry }}</p>
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #personProfiles>
+          <button
+            nz-button
+            nzType="primary"
+            nz-popover
+            nzTitle="Perfis de acesso"
+            nzTrigger="click"
+            [nzContent]="profileContent"
+          >
+            <i nz-icon nzType="user"></i>Perfis
+            <ng-template #profileContent>
+              <p *ngFor="let p of person.roles">{{ p | profileType }}</p>
+            </ng-template>
+          </button>
+        </ng-template>
+        <ng-template #personEdit>
+          <span [routerLink]="['/admin/profile', person.id]"><i nz-icon nzType="edit" class="mr-2"></i>Editar</span>
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+</div>

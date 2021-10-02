@@ -1,0 +1,323 @@
+<div class="mx-auto">
+  <nz-card
+    [nzBordered]="false"
+    [nzLoading]="!fg"
+    nzTitle="OAB e informações bancárias"
+  >
+    <form *ngIf="person && fg" [formGroup]="fg" novalidate>
+      <nz-row [nzGutter]="8" nzJustify="center" nzType="flex">
+        <div nz-col nzSm="18" nzXs="24">
+          <p class="text-justify font-weight-bold">
+            Para ser um Analista Diagnojur e fazer parte desta revolução, você
+            deve ser advogado devidamente inscrito na OAB do seu estado e em
+            situação regular.
+          </p>
+        </div>
+
+        <div nz-col nzSm="18" nzXs="24">
+          <nz-form-item>
+            <nz-form-label nzFor="name">Nome</nz-form-label>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group [nzPrefix]="prefixName">
+                <input
+                  formControlName="name"
+                  id="name"
+                  nz-input
+                  placeholder="Nome Completo"
+                  type="text"
+                />
+              </nz-input-group>
+            </nz-form-control>
+            <nz-form-explain
+              *ngIf="fg.get('name')?.dirty && fg.get('name').errors"
+            >
+              Por favor, verifique o nome informado
+            </nz-form-explain>
+          </nz-form-item>
+        </div>
+
+        <div [nzSpan]="8" nz-col nzSm="9" nzXs="24">
+          <nz-form-item>
+            <nz-form-label nzFor="cpf"
+              >CPF
+              <small>(somente conferência)</small>
+            </nz-form-label>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group [nzPrefix]="prefixCpf">
+                <input
+                  [disabled]="true"
+                  [validation]="false"
+                  formControlName="cpf"
+                  id="cpf"
+                  mask="000.000.000-00"
+                  nz-input
+                  placeholder="CPF"
+                  readonly
+                  type="text"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div [nzSpan]="8" nz-col nzSm="9" nzXs="24">
+          <nz-form-item>
+            <nz-form-label nzFor="oab-number">nº e UF da OAB</nz-form-label>
+            <nz-form-control>
+              <nz-input-group [nzAddOnAfter]="selectUf" [nzPrefix]="prefixOab">
+                <input
+                  [validation]="false"
+                  formControlName="oabNumber"
+                  id="oab-number"
+                  mask="0000000"
+                  nz-input
+                  placeholder="nº OAB"
+                  type="text"
+                />
+              </nz-input-group>
+              <ng-template #selectUf>
+                <nz-select formControlName="oabUf" style="width: 75px;">
+                  <nz-option
+                    *ngFor="let u of ufs"
+                    [nzLabel]="u"
+                    [nzValue]="u"
+                  ></nz-option>
+                </nz-select>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </nz-row>
+
+      <nz-row [nzGutter]="8" nzJustify="center" nzType="flex">
+        <nz-col nzSm="3" nzXs="8">
+          <nz-form-item class="dj-form-item">
+            <nz-form-label>DDD</nz-form-label>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group>
+                <input
+                  formControlName="stateCode1"
+                  mask="00"
+                  nz-input
+                  placeholder="DDD"
+                />
+              </nz-input-group>
+              <nz-form-explain
+                *ngIf="
+                  fg.get('stateCode1')?.dirty && fg.get('stateCode1')?.errors
+                "
+              >
+                <ng-container
+                  *ngIf="fg.get('stateCode1')?.hasError('required')"
+                >
+                  Informe o DDD
+                </ng-container>
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+
+        <nz-col nzSm="6" nzXs="16">
+          <nz-form-item class="dj-form-item">
+            <nz-form-label nzFor="telephone1">Telefone</nz-form-label>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group>
+                <input
+                  formControlName="telephone1"
+                  id="telephone1"
+                  nz-input
+                  placeholder="Telefone"
+                />
+              </nz-input-group>
+              <nz-form-explain
+                *ngIf="
+                  fg.get('telephone1')?.dirty && fg.get('telephone1')?.errors
+                "
+              >
+                <ng-container
+                  *ngIf="fg.get('telephone1')?.hasError('required')"
+                >
+                  Por favor, digite o Telefone
+                </ng-container>
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+
+        <nz-col nzSm="3" nzXs="8">
+          <nz-form-item class="dj-form-item">
+            <nz-form-label>DDD 2</nz-form-label>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group>
+                <input
+                  formControlName="stateCode2"
+                  mask="00"
+                  nz-input
+                  placeholder="DDD"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+
+        <nz-col nzSm="6" nzXs="16">
+          <nz-form-item class="dj-form-item">
+            <nz-form-label nzFor="telephone2">Telefone 2</nz-form-label>
+            <nz-form-control nzHasFeedback>
+              <nz-input-group>
+                <input
+                  formControlName="telephone2"
+                  id="telephone2"
+                  nz-input
+                  placeholder="Telefone"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+
+        <nz-col nzXs="18" class="mt-n3 mb-3">
+          <span nz-text nzType="secondary">Cadastre ao menos um telefone</span>
+        </nz-col>
+      </nz-row>
+
+      <nz-card-meta
+        [nzDescription]="areasAtuacaoDescription"
+        [nzTitle]="areaAtuacaoTitle"
+      >
+        <ng-template #areaAtuacaoTitle>
+          <div [nzGutter]="8" nz-row nzJustify="center" nzType="flex">
+            <div nz-col nzSm="18" nzXs="24">
+              Áreas de Atuação
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #areasAtuacaoDescription>
+          <div [nzGutter]="8" nz-row nzJustify="center" nzType="flex">
+            <div nz-col nzSm="18" nzXs="24">
+              <p class="text-justify">
+                A distribuição das solicitações dos diagnósticos contratados
+                pelos usuários serão disponibilizadas de acordo com a área de
+                atuação selecionada pelo Analista Diagnojur, isso determinará
+                quais tipos de processos e diagnósticos você irá produzir!
+              </p>
+              <p class="text-justify font-weight-bold">
+                Lembre-se: Esta escolha está diretamente ligada aos tipos de
+                processos e diagnósticos que você irá realizar, salientando que
+                estarão em constante auditoria.
+              </p>
+            </div>
+
+            <div nz-col nzSm="18" nzXs="24">
+              <nz-form-item>
+                <nz-form-label>Especialidades</nz-form-label>
+                <nz-form-control>
+                  <label formControlName="civel" nz-checkbox>Cível</label>
+                  <label formControlName="criminal" nz-checkbox>Criminal</label>
+                  <label formControlName="labor" nz-checkbox>Trabalhista</label>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </ng-template>
+      </nz-card-meta>
+
+      <nz-card-meta [nzDescription]="bancoDescription" [nzTitle]="bancoTitle">
+        <ng-template #bancoTitle>
+          <div [nzGutter]="8" nz-row nzJustify="center" nzType="flex">
+            <div nz-col nzSm="18" nzXs="24">
+              Dados Bancários
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template #bancoDescription>
+          <div [nzGutter]="8" nz-row nzJustify="center" nzType="flex">
+            <div nz-col nzSm="18" nzXs="24">
+              <p class="text-justify">
+                Lembre-se de conferir os dados digitados antes de salvar, não
+                nos responsabilizamos pelas informações digitadas. Caso hajam
+                mudanças ou problemas entre em contato conosco, relatando o que
+                houve e iremos resolver.
+              </p>
+            </div>
+
+            <div nz-col nzSm="9" nzXs="24">
+              <nz-form-item>
+                <nz-form-label>Banco</nz-form-label>
+                <nz-form-control>
+                  <button (click)="openSelectBank()" nz-button nzType="default">
+                    {{ bank ? bank.description : 'Selecionar' }}
+                  </button>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSm="4" nzXs="12">
+              <nz-form-item>
+                <nz-form-label>Agência</nz-form-label>
+                <nz-form-control>
+                  <input
+                    formControlName="agency"
+                    nz-input
+                    placeholder="Agência"
+                  />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzSm="5" nzXs="12">
+              <nz-form-item>
+                <nz-form-label nzFor="account"
+                  >Conta Corrente e dígito</nz-form-label
+                >
+                <nz-form-control>
+                  <nz-input-group nzCompact>
+                    <input
+                      formControlName="account"
+                      id="account"
+                      nz-input
+                      placeholder="Conta"
+                      style="width: 60%;"
+                    />
+                    <input
+                      formControlName="digit"
+                      nz-input
+                      placeholder="Dig."
+                      style="width: 40%;"
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+        </ng-template>
+      </nz-card-meta>
+    </form>
+  </nz-card>
+</div>
+
+<ng-template #prefixName>
+  <i nz-icon type="user"></i>
+</ng-template>
+
+<ng-template #prefixCpf>
+  <i nz-icon type="solution"></i>
+</ng-template>
+
+<ng-template #prefixOab>
+  <i nz-icon type="idcard"></i>
+</ng-template>
+
+<ng-template #prefixBank>
+  <i nz-icon type="dollar"></i>
+</ng-template>
+
+<ng-template #prefixAgency>
+  <i nz-icon type="bank"></i>
+</ng-template>
+
+<ng-template #prefixAccount>
+  <i nz-icon type="wallet"></i>
+</ng-template>

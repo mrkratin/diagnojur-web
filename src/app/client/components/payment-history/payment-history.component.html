@@ -1,0 +1,34 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>Histórico de Pagamentos</nz-page-header-title>
+</nz-page-header>
+
+<section class="px-3 pt-1">
+  <article>
+    <h5>Verifique seus pagamentos abaixo =)</h5>
+    <nz-list [nzLoading]="isLoading" [nzDataSource]="payments ? payments.content : []" [nzRenderItem]="paymentItem"
+      [nzItemLayout]="'vertical'">
+      <ng-template #paymentItem let-payment>
+        <nz-list-item>
+          <nz-list-item-meta [nzDescription]="paymentDescription" [nzTitle]="nzTitle">
+            <ng-template #paymentDescription>
+              <nz-row nzType="flex" class="flex-column">
+                <nz-statistic nzTitle="Valor" [nzValue]="payment.amount" nzPrefix="R$" nzSuffix=",00"></nz-statistic>
+                <p>
+                  Tipo de Diagnóstico: <span>{{ payment.solicitationType | solicitationType }}</span>
+                </p>
+              </nz-row>
+            </ng-template>
+            <ng-template #nzTitle>
+              <nz-row nzType="flex" nzJustify="space-between">
+                <a [routerLink]="['/client/solicitation', payment.solicitation]">
+                  {{ payment.processNumber | mask: '0000000-00.0000.0.00.0000' }}</a>
+              </nz-row>
+            </ng-template>
+          </nz-list-item-meta>
+
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+
+  </article>
+</section>

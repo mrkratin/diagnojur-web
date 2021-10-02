@@ -1,0 +1,59 @@
+<form [formGroup]="formGroup" novalidate nz-form>
+  <nz-row>
+    <nz-col nzMd="8" nzXs="24">
+      <nz-form-item class="dj-form-item">
+        <nz-form-label nzFor="input-code">Código do Cupon</nz-form-label>
+        <nz-form-control>
+          <input formControlName="code" id="input-code" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+
+    <nz-col nzMd="16" nzXs="24">
+      <nz-form-item class="dj-form-item">
+        <nz-form-label nzFor="input-type">Tipo de Desconto</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group [nzButtonStyle]="'solid'" formControlName="type" id="input-type">
+            <label nz-radio-button nzValue="MONEY"> <i class="mr-2" nz-icon type="barcode"></i>Dinheiro </label>
+            <label nz-radio-button nzValue="PERCENTAGE">
+              <i class="mr-2" nz-icon type="credit-card"></i>Porcentagem
+            </label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+
+    <nz-col nzMd="6" nzXs="12">
+      <nz-form-item class="dj-form-item">
+        <nz-form-label nzFor="input-discount">Desconto</nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="discount" id="input-discount"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+
+    <nz-col nzMd="6" nzXs="12">
+      <nz-form-item class="dj-form-item">
+        <nz-form-label nzFor="input-amount">Quantidade</nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="totalAmount" id="input-amount"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+
+    <nz-col nzMd="12" nzXs="24">
+      <nz-form-item class="dj-form-item">
+        <nz-form-label nzFor="input-validity">Validade</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker
+            [nzStyle]="{ width: '100%' }"
+            class="w-100"
+            formControlName="validity"
+            id="input-validity"
+            nzFormat="dd/MM/yyyy"
+          ></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+  </nz-row>
+</form>

@@ -1,0 +1,99 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>Lista de Diagnósticos</nz-page-header-title>
+
+  <nz-page-header-extra>
+    <button (click)="isCollapsedForm = !isCollapsedForm" nz-button nzShape="circle" nzType="default">
+      <i nz-icon nzTheme="outline" nzType="filter"></i>
+    </button>
+    <button [nzLoading]="isLoading" nz-button nzShape="circle" nzType="primary">
+      <i nz-icon nzTheme="outline" nzType="search"></i>
+    </button>
+  </nz-page-header-extra>
+
+  <nz-page-header-content>
+    <form *ngIf="!isCollapsedForm" [formGroup]="formGroup" novalidate nz-form>
+      <div [nzGutter]="8" nz-row>
+        <div nz-col nzLg="4" nzMd="8" nzSm="12" nzXXl="6" nzXl="6" nzXs="12">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-form-label nzFor="size">Qtde. por página</nz-form-label>
+              <nz-select formControlName="size" id="size" nzMode="default" nzPlaceHolder="Itens por página">
+                <nz-option [nzValue]="5" nzLabel="5"></nz-option>
+                <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+                <nz-option [nzValue]="15" nzLabel="15"></nz-option>
+                <nz-option [nzValue]="20" nzLabel="20"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzLg="4" nzMd="8" nzSm="12" nzXXl="6" nzXl="6" nzXs="12">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-form-label nzFor="direction">Ordenação</nz-form-label>
+              <nz-select formControlName="direction" id="direction" nzMode="default" nzPlaceHolder="Ordenação">
+                <nz-option [nzValue]="directions[0]" nzLabel="Decrescente"></nz-option>
+                <nz-option [nzValue]="directions[1]" nzLabel="Crescente"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="6" nzXl="6" nzXs="24">
+          <nz-form-item>
+            <nz-form-control>
+              <nz-form-label nzFor="process-number">Número do Processo</nz-form-label>
+              <input [validation]="false" formControlName="processNumber" id="process-number"
+                mask="0000000-00.0000.0.00.0000" nz-input placeholder="NNNNNNN-DD.AAAA.J.TR.OOOO" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </nz-page-header-content>
+</nz-page-header>
+
+<nz-card [nzLoading]="!diagnosis" [nzTitle]="'Diagnósticos Concluídos'">
+  <nz-list *ngIf="diagnosis" [nzDataSource]="diagnosis.content" [nzRenderItem]="diagnosticItem" nzItemLayout="vertical"
+    [nzPagination]="pagination">
+    <ng-template #diagnosticItem let-diagnostic>
+      <nz-list-item [nzActions]="[statusAction, eyeAction]">
+        <ng-template #statusAction>
+          <nz-tag (click)="(false)" [nzColor]="'#f50'">{{ diagnostic.status | diagnosisStatus }}</nz-tag>
+          <nz-tag *ngIf="diagnostic.solicitationReply" (click)="(false)" [nzColor]="'#2db7f5'">Réplica Solicitada
+          </nz-tag>
+          <nz-tag *ngIf="diagnostic.received" (click)="(false)" [nzColor]="'#87d068'">Recebido</nz-tag>
+          <nz-tag *ngIf="diagnostic.evaluated" (click)="(false)" [nzColor]="'#108ee9'">Avaliado</nz-tag>
+        </ng-template>
+        <ng-template #eyeAction>
+          <i [routerLink]="['/analyst/diagnostic', diagnostic.id]" nz-icon nz-tooltip nzTitle="Visualizar"
+            type="eye"></i>
+        </ng-template>
+        <nz-list-item-meta [nzTitle]="diagnosticTitle" [nzDescription]="diagnosticDescription">
+          <ng-template #diagnosticTitle>
+            <a [routerLink]="['/analyst/diagnostic', diagnostic.id]">
+              {{ diagnostic.processNumber | mask: '0000000-00.0000.0.00.0000' }}
+            </a>
+          </ng-template>
+          <ng-template #diagnosticDescription>
+            <div nz-row nzType="flex">
+              <div [nzXs]="24" nz-col>Código {{ diagnostic.id }}</div>
+              <div [nzXs]="24" nz-col>
+                {{ diagnostic.type | solicitationType }}
+              </div>
+              <div [nzXs]="24" nz-col>
+                {{ (diagnostic.specificType ? diagnostic.specificType : '') | solicitationSpecificType }}
+              </div>
+              <div [nzXs]="24" nz-col>
+                <small>{{ diagnostic.dateDraw | dateMoment }}</small>
+              </div>
+            </div>
+          </ng-template>
+        </nz-list-item-meta>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+</nz-card>
+
+<ng-template #pagination>
+  <nz-pagination (nzPageIndexChange)="pageChange($event)" [nzPageIndex]="formGroup.controls.page.value + 1"
+    [nzPageSize]="formGroup.controls.size.value" [nzTotal]="diagnosis.totalElements"></nz-pagination>
+</ng-template>

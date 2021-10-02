@@ -1,0 +1,14 @@
+<nz-row *ngIf="isLoading" nzJustify="center" nzType="flex">
+  <nz-spin></nz-spin>
+</nz-row>
+<nz-timeline nzMode="alternate" *ngIf="history">
+  <nz-timeline-item *ngFor="let h of history">
+    <!--[nzDot]="history.indexOf(h) === history.length - 1 ? dotLoading : ''"-->
+    <!--[nzColor]="history.indexOf(h) === history.length - 1 ? 'blue' : 'green'">-->
+    <p>{{ h.next | solicitationTimeline }}</p>
+    <small>{{ h.creationDate | dateMoment: formatDate }}</small>
+  </nz-timeline-item>
+</nz-timeline>
+<ng-template #dotLoading>
+  <i nz-icon nzType="loading"></i>
+</ng-template>

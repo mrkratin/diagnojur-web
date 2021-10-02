@@ -1,0 +1,240 @@
+<nz-card nzTitle="Meu Perfil" [nzBordered]="false">
+  <form *ngIf="formGroup" [formGroup]="formGroup" novalidate>
+    <nz-row>
+      <nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="8" nzXl="8" nzXs="24">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label nzFor="name">Nome</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group [nzPrefix]="prefixUser">
+              <input
+                formControlName="name"
+                id="name"
+                nz-input
+                placeholder="Nome Completo"
+              />
+            </nz-input-group>
+            <nz-form-explain
+              *ngIf="
+                formGroup.get('name')?.dirty && formGroup.get('name')?.errors
+              "
+            >
+              <ng-container *ngIf="formGroup.get('name')?.hasError('required')">
+                Por favor, digite seu nome completo
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="8" nzXl="8" nzXs="24">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label [nzFor]="'email'">Email</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group [nzPrefix]="prefixMail">
+              <input
+                formControlName="email"
+                id="email"
+                nz-input
+                placeholder="E-mail"
+                type="email"
+              />
+            </nz-input-group>
+            <nz-form-explain
+              *ngIf="
+                formGroup.get('email')?.dirty && formGroup.get('email')?.errors
+              "
+            >
+              <ng-container *ngIf="formGroup.get('email')?.hasError('email')">
+                Por favor, verifique o email informado
+              </ng-container>
+              <ng-container
+                *ngIf="formGroup.get('email')?.hasError('required')"
+              >
+                E-mail não informado
+              </ng-container>
+              <ng-container
+                *ngIf="formGroup.get('email')?.hasError('duplicated')"
+              >
+                E-mail já cadastrado
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="8" nzMd="12" nzSm="12" nzXXl="8" nzXl="8" nzXs="12">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>CPF</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group [nzPrefix]="prefixCpf">
+              <input
+                disabled
+                formControlName="cpf"
+                mask="000.000.000-00"
+                nz-input
+                placeholder="CPF"
+              />
+            </nz-input-group>
+            <nz-form-explain
+              *ngIf="
+                formGroup.get('cpf')?.dirty && formGroup.get('cpf')?.errors
+              "
+            >
+              <ng-container *ngIf="formGroup.get('cpf')?.hasError('required')">
+                Por favor, informe o CPF do usuário
+              </ng-container>
+              <ng-container
+                *ngIf="formGroup.get('cpf')?.hasError('invalidcpf')"
+              >
+                CPF inválido
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="8" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="12">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>Matricula</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group [nzPrefix]="prefixCpf">
+              <input
+                disabled
+                formControlName="registry"
+                nz-input
+                placeholder="Matricula"
+              />
+            </nz-input-group>
+            <nz-form-explain
+              *ngIf="
+                formGroup.get('registry')?.dirty &&
+                formGroup.get('registry')?.errors
+              "
+            >
+              Por favor, informe a matricula do usuário
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="6" nzXl="6" nzXs="24">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>Senha</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group [nzPrefix]="prefixLock">
+              <input
+                formControlName="password"
+                nz-input
+                placeholder="Senha"
+                type="password"
+              />
+            </nz-input-group>
+            <nz-form-explain
+              *ngIf="
+                formGroup.get('password')?.dirty &&
+                formGroup.get('password')?.errors
+              "
+            >
+              <ng-container
+                *ngIf="formGroup.get('password')?.hasError('required')"
+              >
+                Senha não informada
+              </ng-container>
+              <ng-container
+                *ngIf="
+                  formGroup.get('password')?.hasError('minlength') ||
+                  formGroup.get('password')?.hasError('maxlength')
+                "
+              >
+                A senha deve conter entre 6 a 24 caracteres
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="6" nzXl="6" nzXs="24">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>Confirme senha</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group [nzPrefix]="prefixLock">
+              <input
+                formControlName="repassword"
+                nz-input
+                placeholder="Confirme sua senha"
+                type="password"
+              />
+            </nz-input-group>
+            <nz-form-explain
+              *ngIf="
+                formGroup.get('repassword')?.dirty &&
+                formGroup.get('repassword')?.errors
+              "
+            >
+              <ng-container
+                *ngIf="formGroup.get('repassword')?.hasError('required')"
+              >
+                Por favor, confirme a senha do usuário
+              </ng-container>
+              <ng-container
+                *ngIf="formGroup.get('repassword')?.hasError('confirm')"
+              >
+                Senhas incorretas
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="8" nzMd="16" nzSm="16" nzXXl="6" nzXl="6" nzXs="16">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>Data de nascimento</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker
+              [nzStyle]="{ width: '100%' }"
+              class="w-100"
+              formControlName="dateBirth"
+              nzFormat="dd/MM/yyyy"
+              nzPlaceHolder="Data de Nascimento"
+            >
+            </nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="6" nzMd="8" nzSm="8" nzXXl="6" nzXl="6" nzXs="8">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label nzFor="wallet">Créditos</nz-form-label>
+          <nz-form-control>
+            <nz-input-number
+              [nzDisabled]="true"
+              [nzFormatter]="formatterReal"
+              [nzMin]="0"
+              [nzParser]="parserReal"
+              formControlName="wallet"
+              id="wallet"
+            ></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+
+    <nz-row nzJustify="end" nzType="flex">
+      <button
+        (click)="save()"
+        [nzLoading]="loading"
+        [disabled]="formGroup.invalid"
+        nz-button
+        nzType="primary"
+      >
+        Salvar
+      </button>
+    </nz-row>
+  </form>
+</nz-card>
+
+<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+<ng-template #prefixMail><i nz-icon type="mail"></i></ng-template>
+<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+<ng-template #prefixCpf><i nz-icon type="solution"></i></ng-template>
+<ng-template #prefixCep><i nz-icon type="environment"></i></ng-template>

@@ -1,0 +1,37 @@
+<nz-card *ngIf="document" [nzActions]="[actionDisapproved, actionApprove]" [nzCover]="docCover">
+  <nz-card-meta [nzDescription]="docDescription" [nzTitle]="document.type | documentType"></nz-card-meta>
+</nz-card>
+<ng-template #docCover>
+  <a [href]="document.url" target="_blank">
+    <img [alt]="document.type" [src]="document.url" class="img-fluid" style="height: 200px;" />
+  </a>
+</ng-template>
+<ng-template #docDescription>
+  <nz-tag nzColor="#f60">{{ document.status | documentStatus }}</nz-tag>
+</ng-template>
+<ng-template #actionDisapproved>
+  <nz-dropdown [nzDisabled]="disableBtn" nzTrigger="click">
+    <button nz-button nz-dropdown nzType="danger" [nzLoading]="deniedIsLoading">
+      <span>Reprovar</span><i nz-icon type="down"></i>
+    </button>
+
+    <ul nz-menu>
+      <li nz-menu-item (click)="disapprove(unreadable)">
+        <a><i nz-icon nzType="file-search"></i>Ilegivel</a>
+      </li>
+
+      <li nz-menu-item (click)="disapprove(incorrect)">
+        <a><i nz-icon nzType="file-unknown"></i>Tipo Incorreto</a>
+      </li>
+
+      <li nz-menu-item (click)="disapprove(falsification)">
+        <a><i nz-icon nzType="file-exclamation"></i>Suspeita de Falsificação</a>
+      </li>
+    </ul>
+  </nz-dropdown>
+</ng-template>
+<ng-template #actionApprove>
+  <button nz-button nzType="primary" [nzLoading]="isLoading" [disabled]="disableBtn" (click)="approve()">
+    <i nz-icon nzType="file-done"></i>Aprovar
+  </button>
+</ng-template>

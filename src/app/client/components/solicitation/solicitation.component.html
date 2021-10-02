@@ -1,0 +1,44 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title
+    >Solicitação de Diagnóstico<span *ngIf="solicitation"> {{ solicitation.id }}</span>
+  </nz-page-header-title>
+
+  <nz-page-header-tags *ngIf="solicitation">
+    <dj-tag-solicitation-status [solicitation]="solicitation"></dj-tag-solicitation-status>
+  </nz-page-header-tags>
+
+  <nz-page-header-extra *ngIf="solicitation" class="d-lg-block d-none">
+    <a (click)="showTimeline()">Linha do Tempo</a>
+    <nz-divider *ngIf="showBtnDownload" nzType="vertical"></nz-divider>
+    <a (click)="download()" *ngIf="showBtnDownload">
+      <i *ngIf="isDownloading" class="mr-2" nz-icon nzType="loading"></i>Visualizar
+    </a>
+    <nz-divider *ngIf="showBtnEvaluate" nzType="vertical"></nz-divider>
+    <a (click)="evaluate()" *ngIf="showBtnEvaluate">Avaliar</a>
+    <nz-divider *ngIf="showBtnReply" nzType="vertical"></nz-divider>
+    <a (click)="reply()" *ngIf="showBtnReply">Solicitar Réplica</a>
+  </nz-page-header-extra>
+
+  <nz-page-header-content *ngIf="solicitation">
+    <nz-row class="p-3 d-flex d-lg-none" nzJustify="end" nzType="flex">
+      <nz-dropdown-button nzTrigger="click">
+        Opçoes
+        <ul nz-menu>
+          <li (click)="showTimeline()" nz-menu-item>Linha do Tempo</li>
+          <li (click)="download()" *ngIf="showBtnDownload" [nzDisabled]="isDownloading" nz-menu-item>
+            <i *ngIf="isDownloading" class="mr-2" nz-icon nzType="loading"></i>
+            Download
+          </li>
+          <li (click)="evaluate()" *ngIf="showBtnEvaluate" [nzDisabled]="isEvaluating" nz-menu-item>Avaliar</li>
+          <li (click)="reply()" *ngIf="showBtnReply" nz-menu-item>Solicitar Réplica</li>
+        </ul>
+      </nz-dropdown-button>
+    </nz-row>
+
+    <dj-solicitation-info [solicitation]="solicitation"></dj-solicitation-info>
+  </nz-page-header-content>
+
+  <nz-page-header-footer>
+    <dj-solicitation-diagnosis *ngIf="showDiagnosis" [diagnosis]="solicitation.diagnosis"></dj-solicitation-diagnosis>
+  </nz-page-header-footer>
+</nz-page-header>

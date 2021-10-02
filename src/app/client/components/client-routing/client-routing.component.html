@@ -1,0 +1,85 @@
+<dj-main-nav></dj-main-nav>
+
+<nz-modal [(nzVisible)]="isVisibleAddressModal" nzTitle="Endereço" (nzOnCancel)="handleAddressCancel()">
+  <p class="mb-3">Informe seu endereço para poder solicitar um diagnóstico</p>
+
+  <form *ngIf="fg" [formGroup]="fg" novalidate nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cep">CEP</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <input formControlName="cep" name="cep" mask="00.000-000" nz-input placeholder="CEP" type="text" />
+        <nz-form-explain *ngIf="fg.get('cep')?.dirty && fg.get('cep')?.errors">
+          <ng-container *ngIf="fg.get('cep')?.dirty && fg.get('cep')?.errors">
+            Informe seu CEP
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cep">Logradouro</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback [nzValidateStatus]="
+          (fg.get('street')?.dirty && fg.get('street')?.errors) || (fg.get('cep')?.dirty && fg.get('number')?.errors)
+            ? 'error'
+            : 'success'
+        ">
+        <nz-input-group nzCompact>
+          <input formControlName="street" nz-input placeholder="Logradouro" style="width: 70%;" type="text" />
+          <input formControlName="number" nz-input placeholder="nº" style="width: 30%;" type="text" />
+        </nz-input-group>
+        <nz-form-explain *ngIf="
+            (fg.get('street')?.dirty && fg.get('street')?.errors) || (fg.get('cep')?.dirty && fg.get('number')?.errors)
+          ">
+          <ng-container *ngIf="fg.get('street')?.hasError('required')">
+            <p>Por favor, informe logradouro</p>
+          </ng-container>
+          <ng-container *ngIf="fg.get('number')?.hasError('required')">
+            <p>nº da residência deve ser informado</p>
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cep">Complemento</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input formControlName="complement" nz-input placeholder="Complemento" type="text" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cep">Bairro</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <input formControlName="district" nz-input placeholder="Bairro" type="text" />
+        <nz-form-explain *ngIf="fg.get('district')?.dirty && fg.get('district')?.errors">
+          <ng-container *ngIf="fg.get('district')?.hasError('required')">
+            Por favor, informe seu bairro
+          </ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cep">Estado</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select formControlName="province" nzMode="default" nzPlaceHolder="Estado">
+          <nz-option *ngFor="let p of provinces" [nzLabel]="p.name" [nzValue]="p.id"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cep">Cidade</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select formControlName="city" nzMode="default" nzPlaceHolder="Cidade" nzShowSearch>
+          <nz-option *ngFor="let c of cities" [nzLabel]="c.name" [nzValue]="c.id"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleAddressCancel()">Cancelar</button>
+    <button nz-button nzType="primary" (click)="handleAddressOk()" [nzLoading]="isAddressLoading">Salvar</button>
+  </div>
+</nz-modal>

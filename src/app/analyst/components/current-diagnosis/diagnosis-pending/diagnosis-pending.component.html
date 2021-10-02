@@ -1,0 +1,20 @@
+<nz-col *ngIf="deadLine" [nzSpan]="24" class="mb-3">
+  <nz-countdown [nzTitle]="'Tempo restante'" [nzValue]="deadLine" class="float-right mr-2"></nz-countdown>
+</nz-col>
+
+<dl nz-row>
+  <div nz-row>
+    <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Tipo</dt>
+    <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ diagnostic.type | solicitationType }}</dd>
+  </div>
+  <div nz-row>
+    <dt nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">Status</dt>
+    <dd nz-col nzLg="6" nzXXl="6" nzXl="6" nzXs="24">{{ diagnostic.status | diagnosisStatus }}</dd>
+  </div>
+</dl>
+
+<div nz-row nzType="flex" nzJustify="center">
+  <button nz-button type="button" [routerLink]="['/analyst/diagnostic', diagnostic.id]">
+    Mais detalhes
+  </button>
+</div>

@@ -1,0 +1,27 @@
+<div class="mx-auto">
+  <nz-card [nzBordered]="false" nzTitle="Contrato, termos e uso">
+    <div [nzGutter]="8" nz-row nzJustify="center" nzType="flex">
+      <div nz-col nzSm="18" nzXs="24">
+        <p class="text-justify font-weight-bold">
+          Leia com atenção os termos e condições gerais, nele estão previsto todas as condições, direitos e obrigações.
+        </p>
+
+        <p class="text-justify">
+          O cadastro apenas poderá ser enviado para análise após o aceite onde dentre outras regras, o Analista
+          Diagnojur se compromete a realizar diagnósticos apenas descritivos de linguagem simples, objetiva e sem o
+          “juridiquês”, atentando para não abordar ou fazer críticas das teses e a estratégia utilizada pelos advogados,
+          autoridades ou partes envolvidas nos processos.
+        </p>
+
+        <p>
+          <a href="https://davi406.wixsite.com/diagnoteste/termosdeuso" target="_blank">Clique aqui para ler os termos
+            de usos</a>
+        </p>
+
+        <form [formGroup]="formGroup" novalidate nz-form>
+          <label formControlName="accept" nz-checkbox>Concordo com os termos de usos</label>
+        </form>
+      </div>
+    </div>
+  </nz-card>
+</div>

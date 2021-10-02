@@ -1,0 +1,128 @@
+<nz-page-header (nzBack)="onBack()" nzBackIcon>
+  <nz-page-header-title>Cupons de Desconto</nz-page-header-title>
+  <nz-page-header-extra>
+    <button (click)="addCoupon()" nz-button nzShape="circle" nzType="primary">
+      <i nz-icon type="plus"></i>
+    </button>
+  </nz-page-header-extra>
+  <nz-page-header-footer>
+    <nz-collapse class="mb-3">
+      <nz-collapse-panel nzHeader="Filtros">
+        <form [formGroup]="formGroup">
+          <nz-row>
+            <nz-col nzSm="8" nzXs="12">
+              <nz-form-item class="dj-form-item">
+                <nz-form-label nzFor="sizeInput">Itens por página</nz-form-label>
+                <nz-form-control>
+                  <nz-select formControlName="size" id="sizeInput">
+                    <nz-option [nzValue]="5" nzLabel="5"></nz-option>
+                    <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+                    <nz-option [nzValue]="15" nzLabel="15"></nz-option>
+                    <nz-option [nzValue]="20" nzLabel="20"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+
+            <nz-col nzSm="8" nzXs="12">
+              <nz-form-item class="dj-form-item">
+                <nz-form-label nzFor="searchType">Ordenar por</nz-form-label>
+                <nz-form-control>
+                  <nz-select formControlName="orderBy" id="searchType">
+                    <nz-option [nzValue]="'creationDate'" nzLabel="Data"></nz-option>
+                    <nz-option [nzValue]="'requestedValue'" nzLabel="Valor"></nz-option>
+                    <nz-option [nzValue]="'id'" nzLabel="Código"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+
+            <nz-col nzSm="8" nzXs="24">
+              <nz-form-item class="dj-form-item">
+                <nz-form-label nzFor="orderByInput">Ordenação</nz-form-label>
+                <nz-form-control>
+                  <nz-select formControlName="direction" id="orderByInput">
+                    <nz-option [nzValue]="directions[0]" nzLabel="Decrescente"></nz-option>
+                    <nz-option [nzValue]="directions[1]" nzLabel="Crescente"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+        </form>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </nz-page-header-footer>
+</nz-page-header>
+
+<!--<nz-table #table nzTitle="Últimos Cupons" [nzData]="discountCoupons ? discountCoupons.content : []"-->
+<!--[nzLoading]="isLoading" [nzScroll]="{ x: '0px' }">-->
+
+<!--<thead>-->
+<!--<tr>-->
+<!--<th>#</th>-->
+<!--<th>Código</th>-->
+<!--<th>Tipo</th>-->
+<!--<th>Desconto</th>-->
+<!--<th>Usos</th>-->
+<!--<th>Validade</th>-->
+<!--</tr>-->
+<!--</thead>-->
+
+<!--<tbody>-->
+<!--<tr *ngFor="let data of table.data">-->
+<!--<td>{{data.id}}</td>-->
+<!--<td>{{data.code}}</td>-->
+<!--<td>{{data.type|discountCouponType}}</td>-->
+<!--<td>{{data.discount}}</td>-->
+<!--<td>{{data.amountUsed}}/{{data.totalAmount}}</td>-->
+<!--<td>{{data.validity|dateMoment}}</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+
+<!--</nz-table>-->
+
+<div class="mx-3">
+  <nz-list
+    [nzDataSource]="discountCoupons ? discountCoupons.content : []"
+    [nzLoading]="isLoading"
+    nzHeader="Últimos Cupons"
+    [nzRenderItem]="discountItem"
+    nzItemLayout="vertical"
+  >
+    <ng-template #discountItem let-discountCoupon>
+      <nz-list-item>
+        <nz-list-item-meta [nzTitle]="discountTitle" [nzDescription]="discountDescription">
+          <ng-template #discountTitle>
+            {{ discountCoupon.code }}
+          </ng-template>
+          <ng-template #discountDescription>
+            <div nz-row nzType="flex">
+              <div [nzXs]="24" nz-col>
+                <span class="font-weight-bold-700 mr-2">Tipo de Desconto:</span
+                >{{ discountCoupon.type | discountCouponType }}
+              </div>
+              <div [nzXs]="24" nz-col>
+                <span class="font-weight-bold-700 mr-2">{{
+                  discountCoupon.type === money ? 'Valor' : 'Porcentagem'
+                }}</span>
+                {{
+                  discountCoupon.type === money
+                    ? (discountCoupon.discount | currency: 'BRL':'symbol':'1.2-2':'pt')
+                    : discountCoupon.discount + '%'
+                }}
+              </div>
+              <div [nzXs]="24" nz-col>
+                <span class="font-weight-bold-700 mr-2">Quantidade:</span>
+                {{ discountCoupon.amountUsed }}/{{ discountCoupon.totalAmount }}
+              </div>
+              <div [nzXs]="24" nz-col>
+                <span class="font-weight-bold-700 mr-2">Validade:</span> {{ discountCoupon.validity | dateMoment }}
+              </div>
+            </div>
+          </ng-template>
+        </nz-list-item-meta>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
+</div>

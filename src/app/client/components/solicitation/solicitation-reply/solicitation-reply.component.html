@@ -1,0 +1,26 @@
+<form *ngIf="diagnosis" [formGroup]="formGroup" novalidate>
+  <p class="font-weight-bold">Informe o motivo</p>
+  <p>Seja o mais detalhista possível pois so tem direito a 1 replica</p>
+
+  <nz-select class="custom-select mb-3" formControlName="reason">
+    <nz-option *ngFor="let r of reasons" [nzLabel]="r.description" [nzValue]="r.value"></nz-option>
+  </nz-select>
+
+  <nz-form-item>
+    <nz-form-label>Descrição</nz-form-label>
+    <nz-form-control>
+      <textarea
+        class="form-control"
+        formControlName="description"
+        maxlength="255"
+        nz-input
+        nzAutosize
+        placeholder="Descreva o motivo da sua réplica"
+        rows="3"
+      ></textarea>
+    </nz-form-control>
+    <nz-form-explain>
+      <small>Caracteres digitados: {{ formGroup.value.description.length }} de 255</small>
+    </nz-form-explain>
+  </nz-form-item>
+</form>

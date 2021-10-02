@@ -1,0 +1,98 @@
+<nz-card [nzTitle]="'Confira seu endereço'">
+  <form *ngIf="formGroup" [formGroup]="formGroup" novalidate>
+    <nz-row>
+      <nz-col nzLg="8" nzMd="12" nzSm="12" nzXXl="8" nzXl="8" nzXs="12">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>CEP</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group>
+              <input formControlName="cep" mask="00.000-000" nz-input placeholder="CEP" />
+            </nz-input-group>
+            <nz-form-explain *ngIf="formGroup.get('cep')?.dirty && formGroup.get('cep')?.errors">
+              <ng-container *ngIf="formGroup.get('cep')?.hasError('required')">
+                Informe seu CEP
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="8" nzXl="8" nzXs="24">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label nzFor="street">Logradouro</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group>
+              <input formControlName="street" id="street" nz-input placeholder="Logradouro" />
+            </nz-input-group>
+            <nz-form-explain *ngIf="formGroup.get('street')?.dirty && formGroup.get('street')?.errors">
+              <ng-container *ngIf="formGroup.get('name')?.hasError('required')">
+                Por favor, digite o Logradouro
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="8" nzXl="8" nzXs="24">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label [nzFor]="'email'">Bairro</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group>
+              <input formControlName="district" id="district" nz-input placeholder="Bairro" type="text" />
+            </nz-input-group>
+            <nz-form-explain *ngIf="formGroup.get('district')?.dirty && formGroup.get('district')?.errors">
+              <ng-container *ngIf="formGroup.get('email')?.hasError('required')">
+                Bairro não informado
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="4" nzMd="4" nzSm="6" nzXXl="4" nzXl="4" nzXs="6">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>Número</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <nz-input-group>
+              <input formControlName="number" nz-input placeholder="Número" type="number" />
+            </nz-input-group>
+            <nz-form-explain *ngIf="formGroup.get('number')?.dirty && formGroup.get('number')?.errors">
+              <ng-container *ngIf="formGroup.get('number')?.hasError('required')">
+                Número não informado
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col nzLg="8" nzMd="12" nzSm="12" nzXXl="6" nzXl="6" nzXs="12">
+        <nz-form-item class="dj-form-item">
+          <nz-form-label>Complemento</nz-form-label>
+          <nz-form-control>
+            <nz-input-group>
+              <input formControlName="complement" nz-input placeholder="Complemento" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <div nz-col nzLg="12" nzMd="12" nzSm="12" nzXXl="6" nzXl="8" nzXs="24">
+        <nz-form-item>
+          <nz-form-label nzFor="county">Cidade</nz-form-label>
+          <nz-form-control>
+            <nz-select (nzOnSearch)="findCity($event)" formControlName="city" id="city" nzMode="default"
+              [nzPlaceHolder]="counties[0].name" nzShowSearch>
+              <nz-option *ngFor="let c of counties" [nzLabel]="c.name + ' - ' + c.uf" [nzValue]="c.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </nz-row>
+
+    <nz-row nzJustify="end" nzType="flex">
+      <button (click)="save()" [nzLoading]="isLoading" [disabled]="formGroup.invalid" nz-button nzType="primary">
+        Salvar
+      </button>
+    </nz-row>
+  </form>
+</nz-card>

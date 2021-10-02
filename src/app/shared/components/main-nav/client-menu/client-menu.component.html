@@ -1,0 +1,49 @@
+<li nz-submenu routerLinkActive="ant-menu-item-selected">
+  <span title>
+    <i nz-icon type="user"></i>
+    <span>Área do Cliente</span>
+  </span>
+  <ul>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/client/list-solicitations']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Minhas Solicitações
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/client/add-solicitation']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Nova Solicitação
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/client/solicitation-types']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Tipos de Diagnósticos
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      [routerLink]="['/client/payment-history']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Histórico de Pagamentos
+    </li>
+    <li
+      (click)="isCollapsed = !isCollapsed"
+      *ngIf="showBecomeAnalyst"
+      [routerLink]="['/client/become-analyst']"
+      nz-menu-item
+      routerLinkActive="ant-menu-item-selected"
+    >
+      Analista Diagnojur
+    </li>
+  </ul>
+</li>

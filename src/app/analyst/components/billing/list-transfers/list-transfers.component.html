@@ -1,0 +1,12 @@
+<nz-list [nzDataSource]="transfers" [nzLoading]="loading" [nzRenderItem]="item">
+  <ng-template #item let-item>
+    <nz-list-item>
+      <nz-list-item-meta [nzTitle]="item.id" [nzDescription]="djDescription">
+        <ng-template #djDescription>
+          <p>{{ item.amount_localized }}</p>
+          <span>{{ item.created_at | dateMoment:'DATE_TIME' }}</span>
+        </ng-template>
+      </nz-list-item-meta>
+    </nz-list-item>
+  </ng-template>
+</nz-list>

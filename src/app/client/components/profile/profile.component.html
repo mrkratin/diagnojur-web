@@ -1,0 +1,57 @@
+<nz-page-header [nzTitle]="'Meu Usuário'">
+
+  <nz-page-header-content *ngIf="profile">
+    <nz-row nzType="flex" nzJustify="center">
+
+      <nz-upload class="avatar-uploader" [nzAction]="urlUpload" nzListType="picture-card" [nzShowUploadList]="false"
+        [nzBeforeUpload]="beforeUpload" (nzChange)="changeFile($event)">
+        <ng-container *ngIf="!avatarUrl">
+          <i class="upload-icon" nz-icon [nzType]="avatarLoading ? 'loading' : 'plus'"></i>
+          <div class="ant-upload-text">Enviar</div>
+        </ng-container>
+        <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar" />
+      </nz-upload>
+
+    </nz-row>
+    <nz-row nzType="flex" nzJustify="center">
+      <h4 nz-title>{{profile.name}}</h4>
+    </nz-row>
+    <nz-row nzType="flex" nzJustify="center">
+      <span nz-text>#{{profile.registry}}</span>
+    </nz-row>
+  </nz-page-header-content>
+
+  <nz-page-header-footer>
+    <!--<div nz-row nzType="flex" nzJustify="center">-->
+    <ul nz-menu nzMode="horizontal">
+      <li [routerLink]="['info']" nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="user"></i>
+        <span class="d-none d-lg-inline">Informações Pessoais</span>
+      </li>
+
+      <li [routerLink]="['analyst']" nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="smile"></i>
+        <span class="d-none d-lg-inline">Analista</span>
+      </li>
+
+      <li [routerLink]="['address']" nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="home"></i>
+        <span class="d-none d-lg-inline">Endereço</span>
+      </li>
+
+      <li [routerLink]="['phone']" nz-menu-item routerLinkActive="ant-menu-item-selected">
+        <i nz-icon nzType="phone"></i>
+        <span class="d-none d-lg-inline">Telefones</span>
+      </li>
+    </ul>
+    <!--</div>-->
+  </nz-page-header-footer>
+</nz-page-header>
+
+<div *ngIf="profile" class="p-3">
+  <router-outlet></router-outlet>
+</div>
+
+<div *ngIf="isLoading" class="mt-5">
+  <nz-spin></nz-spin>
+</div>

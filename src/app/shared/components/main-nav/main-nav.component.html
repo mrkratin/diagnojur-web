@@ -1,0 +1,73 @@
+<nz-layout class="min-vh-100">
+  <nz-header class="dj-header">
+    <div nz-row>
+      <div *ngIf="clientMenu" class="ant-col-2" nz-col>
+        <button (click)="isCollapsed = !isCollapsed" nz-button nzType="default" class="ml-2">
+          <i nz-icon nzType="bars"></i>
+        </button>
+      </div>
+
+      <div nz-col>
+        <div nz-row nzJustify="space-between" nzType="flex">
+          <a [routerLink]="['/']" id="logo">
+            <img alt="Diagnojur logo" src="assets/logo_final.png" />
+          </a>
+
+          <nz-dropdown *ngIf="clientMenu" class="mr-5" nzPlacement="bottomCenter" nzTrigger="click">
+            <a nz-dropdown>{{ person ? firstName : 'Meu Usuário' }} <i nz-icon nzType="down"></i> </a>
+
+            <ul nz-menu>
+              <li class="p-0 m-0" nz-menu-item>
+                <nz-card [nzBordered]="false" [nzLoading]="!person">
+                  <nz-card-meta [nzAvatar]="avatarPerson" [nzDescription]="personDescription"
+                    [nzTitle]="person ? person.name : ''">
+                    <ng-template #personDescription> </ng-template>
+                    <ng-template #avatarPerson>
+                      <nz-avatar nzSrc="assets/account.png"></nz-avatar>
+                    </ng-template>
+                  </nz-card-meta>
+                </nz-card>
+              </li>
+              <li [routerLink]="['/client/profile']" nz-menu-item routerLinkActive="ant-menu-item-selected">
+                <i nz-icon nzType="edit"></i> Editar
+              </li>
+              <li nz-menu-divider></li>
+              <li nz-menu-item >
+                <a href="https://diagnojur.com.br" target="_blank">
+                  <i nz-icon nzType="question"></i>
+                  Ajuda
+                </a>
+              </li>
+              <li (click)="logout()" nz-menu-item><i nz-icon nzType="logout"></i> Sair</li>
+            </ul>
+          </nz-dropdown>
+        </div>
+      </div>
+    </div>
+  </nz-header>
+
+  <nz-layout>
+    <nz-sider *ngIf="clientMenu" [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzBreakpoint]="'lg'"
+      [nzCollapsedWidth]="0" [nzTheme]="'light'" nzCollapsible>
+      <ul *ngIf="clientMenu" class="h-inherit" nz-menu nzMode="inline" nzTheme="light">
+        <dj-client-menu *ngIf="clientMenu" [(isCollapsed)]="isCollapsed"></dj-client-menu>
+        <dj-analyst-menu *ngIf="analystMenu" [(isCollapsed)]="isCollapsed"></dj-analyst-menu>
+        <dj-admin-menu *ngIf="adminMenu" [(isCollapsed)]="isCollapsed"></dj-admin-menu>
+        <li nz-menu-item>
+          <a href="https://diagnojur.com.br" target="_blank">
+            <i nz-icon nzType="question"></i>
+            Ajuda
+          </a>
+        </li>
+      </ul>
+    </nz-sider>
+
+    <nz-layout>
+      <nz-content class="dj-content">
+        <router-outlet></router-outlet>
+      </nz-content>
+
+      <nz-footer style="text-align: center;">Diagnojur ©2019</nz-footer>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,385 @@
+<!--<form nz-form [formGroup]="formGroup">-->
+<nz-tabset *ngIf="diagnostic && editDiagnostic">
+  <nz-tab nzTitle="Sobre o Processo">
+    <section>
+      <form [formGroup]="aboutFormGroup" nz-form>
+        <nz-row>
+          <nz-col nzMd="12" nzXXl="6" nzXl="8" nzXs="24">
+            <nz-form-item class="dj-form-item">
+              <nz-form-label nzFor="input-judges">Nome do Juiz</nz-form-label>
+              <nz-form-control
+                [nzValidateStatus]="aboutFormGroup.controls.judgesName"
+                nzHasFeedback
+              >
+                <input
+                  formControlName="judgesName"
+                  id="input-judges"
+                  nz-input
+                />
+                <nz-form-explain
+                  *ngIf="
+                    aboutFormGroup.controls.judgesName.hasError('required') &&
+                    aboutFormGroup.controls.judgesName.touched
+                  "
+                >
+                  Nome do Juiz não informado
+                </nz-form-explain>
+                <nz-form-explain
+                  *ngIf="
+                    (aboutFormGroup.controls.judgesName.hasError('minlength') ||
+                      aboutFormGroup.controls.judgesName.hasError(
+                        'maxlength'
+                      )) &&
+                    aboutFormGroup.controls.judgesName.touched
+                  "
+                >
+                  Nome do Juiz deve conter de 6 a 100 caracteres
+                </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </nz-col>
+
+          <nz-col nzMd="12" nzXXl="6" nzXl="8" nzXs="24">
+            <nz-form-item class="dj-form-item">
+              <nz-form-label nzFor="process-degree"
+                >Grau de Justiça</nz-form-label
+              >
+              <nz-form-control>
+                <nz-select
+                  formControlName="degree"
+                  id="process-degree"
+                  nzMode="default"
+                  nzPlaceHolder="Grau do processo"
+                >
+                  <nz-option
+                    *ngFor="let d of pDegrees"
+                    [nzLabel]="d.description"
+                    [nzValue]="d.value"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </nz-col>
+
+          <nz-col
+            nzMd="8"
+            nzXXl="6"
+            nzXl="8"
+            nzXs="24"
+            *ngIf="showProcessResource"
+          >
+            <nz-form-item class="dj-form-item">
+              <nz-form-label nzFor="input-resource"
+                >Tipo de Recurso</nz-form-label
+              >
+              <nz-form-control
+                [nzValidateStatus]="aboutFormGroup.controls.resource"
+                nzHasFeedback
+              >
+                <nz-select
+                  formControlName="resource"
+                  nzPlaceHolder="Selecione o Recurso"
+                  nzShowSearch
+                >
+                  <nz-option
+                    *ngFor="let r of pResourceTypes"
+                    [nzLabel]="r.description"
+                    [nzValue]="r.value"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </nz-col>
+
+          <nz-col nzMd="8" nzXXl="6" nzXl="8" nzXs="24">
+            <nz-form-item class="dj-form-item">
+              <nz-form-label nzFor="input-processing-organ"
+                >Orgão de Tramitação</nz-form-label
+              >
+              <nz-form-control
+                [nzValidateStatus]="aboutFormGroup.controls.processingOrgan"
+                nzHasFeedback
+              >
+                <input
+                  formControlName="processingOrgan"
+                  id="input-processing-organ"
+                  nz-input
+                />
+                <nz-form-explain
+                  *ngIf="
+                    aboutFormGroup.controls.processingOrgan.hasError(
+                      'required'
+                    ) && aboutFormGroup.controls.processingOrgan.touched
+                  "
+                >
+                  Orgão de Tramitação do Processo deve ser informado
+                </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+          </nz-col>
+
+          <nz-col nzMd="8" nzXXl="6" nzXl="8" nzXs="24">
+            <nz-form-item class="dj-form-item">
+              <nz-form-label nzFor="process-organ"
+                >Onde está seu processo (Local)</nz-form-label
+              >
+              <nz-form-control>
+                <nz-select
+                  formControlName="organ"
+                  id="process-organ"
+                  nzMode="default"
+                  nzPlaceHolder="Local do processo"
+                >
+                  <nz-option
+                    *ngFor="let o of organs"
+                    [nzLabel]="o.description"
+                    [nzValue]="o.value"
+                  ></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </nz-col>
+
+          <nz-col class="mb-3" nzXs="24">
+            <button
+              (click)="saveAboutProcess()"
+              [disabled]="
+                aboutFormGroup.invalid ||
+                aboutFormGroup.controls.change.value !== true
+              "
+              [nzLoading]="aboutFormGroup.controls.isLoading.value"
+              nz-button
+              nzType="primary"
+            >
+              <i nz-icon type="save"></i>Salvar
+            </button>
+          </nz-col>
+        </nz-row>
+      </form>
+    </section>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="'Partes'">
+    <nz-list
+      [nzHeader]="partesHeader"
+      [nzDataSource]="partsControls"
+      [nzFooter]="footerPartList"
+      [nzRenderItem]="partItem"
+      nzItemLayout="vertical"
+    >
+      <ng-template #partesHeader>
+        <span class="font-weight-bold-700"
+          >*Devem ser preenchidas pelo menos duas (polo ativo e polo
+          passivo)</span
+        >
+      </ng-template>
+
+      <ng-template #partItem let-partItem>
+        <nz-list-item [nzContent]="partItemContent">
+          <ng-template #partItemContent>
+            <div class="w-100">
+              <nz-row class="w-100">
+                <form [formGroup]="partItem">
+                  <div nz-col nzMd="12" nzSm="24">
+                    <nz-form-item class="dj-form-item">
+                      <nz-form-label>Nome Completo</nz-form-label>
+                      <nz-form-control>
+                        <input formControlName="name" nz-input type="text" />
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <div nz-col nzMd="6" nzSm="12">
+                    <nz-form-item class="dj-form-item">
+                      <nz-form-label>Polo processual</nz-form-label>
+                      <nz-form-control>
+                        <nz-select
+                          formControlName="polo"
+                          nzPlaceHolder="Polo processual"
+                        >
+                          <nz-option
+                            *ngFor="let pp of pPolos"
+                            [nzLabel]="pp.description"
+                            [nzValue]="pp.value"
+                          >
+                          </nz-option>
+                        </nz-select>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+
+                  <div nz-col nzMd="6" nzSm="12">
+                    <nz-form-item class="dj-form-item">
+                      <nz-form-label>Tipo de parte</nz-form-label>
+                      <nz-form-control>
+                        <nz-select
+                          formControlName="type"
+                          nzPlaceHolder="Tipo de parte"
+                        >
+                          <nz-option
+                            *ngFor="let pt of pTypes"
+                            [nzLabel]="pt.description"
+                            [nzValue]="pt.value"
+                          >
+                          </nz-option>
+                        </nz-select>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </form>
+              </nz-row>
+
+              <nz-row nzType="flex" nzJustify="end">
+                <nz-button-group>
+                  <button
+                    (click)="savePart(partItem)"
+                    [disabled]="partItem.controls.change.value !== true"
+                    [nzLoading]="partItem.controls.isLoading.value"
+                    nz-button
+                    nzType="primary"
+                  >
+                    <i nz-icon type="save"></i>Salvar
+                  </button>
+
+                  <button
+                    (nzOnConfirm)="removePart(partItem)"
+                    [nzLoading]="partItem.controls.isLoading.value"
+                    nz-button
+                    nz-popconfirm
+                    nzTitle="Tem certeza que deseja remover essa parte?"
+                    nzType="danger"
+                  >
+                    <i nz-icon type="delete"></i>Remover
+                  </button>
+                </nz-button-group>
+              </nz-row>
+            </div>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </nz-tab>
+
+  <nz-tab [nzTitle]="'Eventos do Processo'">
+    <nz-list
+      [nzDataSource]="peControls"
+      [nzFooter]="footerProcessEventList"
+      [nzRenderItem]="processEventItem"
+      nzItemLayout="vertical"
+    >
+      <ng-template #processEventItem let-processEventItem>
+        <nz-list-item
+          [nzActions]="[processEventItemActions]"
+          [nzContent]="processEventItemContent"
+        >
+          <ng-template #processEventItemContent>
+            <div class="w-100" nz-row>
+              <form [formGroup]="processEventItem">
+                <div nz-col nzMd="6" nzSm="24">
+                  <nz-form-item class="dj-form-item">
+                    <nz-form-label nzFor="pe-date-occurrence"
+                      >Data do Evento</nz-form-label
+                    >
+                    <nz-form-control>
+                      <nz-date-picker
+                        [nzStyle]="{ width: '100%' }"
+                        class="w-100"
+                        formControlName="dateOccurrence"
+                        id="pe-date-occurrence"
+                        nzFormat="dd/MM/yyyy"
+                      >
+                      </nz-date-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div nz-col nzMd="18" nzSm="24">
+                  <nz-form-item class="dj-form-item">
+                    <nz-form-label nzFor="pe-title">Título</nz-form-label>
+                    <nz-form-control>
+                      <input
+                        formControlName="title"
+                        id="pe-title"
+                        nz-input
+                        type="text"
+                      />
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div nz-col nzXs="24">
+                  <nz-form-item class="dj-form-item">
+                    <nz-form-label nzFor="pe-description"
+                      >Descrição</nz-form-label
+                    >
+                    <nz-form-control
+                      [nzValidateStatus]="processEventItem.description"
+                      nzHasFeedback
+                    >
+                      <textarea
+                        formControlName="description"
+                        id="pe-description"
+                        nz-input
+                        rows="5"
+                      ></textarea>
+                      <nz-form-explain
+                        *ngIf="processEventItem.controls.description.invalid"
+                      >
+                        Caracteres digitados:
+                        {{ processEventItem.value.description.length }} de 5000
+                      </nz-form-explain>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+
+          <ng-template #processEventItemActions>
+            <nz-button-group>
+              <button
+                (click)="saveProcessEvent(processEventItem)"
+                [disabled]="
+                  processEventItem.controls.change.value !== true ||
+                  processEventItem.invalid
+                "
+                [nzLoading]="processEventItem.controls.isLoading.value"
+                nz-button
+                nzType="primary"
+              >
+                <i nz-icon type="save"></i>Salvar
+              </button>
+
+              <button
+                (nzOnConfirm)="removeProcessEvent(processEventItem)"
+                [nzLoading]="processEventItem.controls.isLoading.value"
+                nz-button
+                nz-popconfirm
+                nzTitle="Tem certeza que deseja remover esse evento do processo?"
+                nzType="danger"
+              >
+                <i nz-icon type="delete"></i>Remover
+              </button>
+            </nz-button-group>
+          </ng-template>
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </nz-tab>
+</nz-tabset>
+<!--</form>-->
+
+<ng-template #footerPartList>
+  <button nz-button (click)="addPart()" [disabled]="disabledAddPartBtn">
+    <i nz-icon nzType="plus"></i>Adicionar
+  </button>
+</ng-template>
+<ng-template #footerProcessEventList>
+  <button
+    nz-button
+    [disabled]="disabledAddProcessEventBtn"
+    (click)="addProcessEvent()"
+  >
+    <i nz-icon nzType="plus"></i>Adicionar
+  </button>
+</ng-template>
